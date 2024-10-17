@@ -41,3 +41,5 @@ out/
 
 ### 설정파일 제외
 application.yml
+application-local.yml
+application-server.yml
