@@ -19,6 +19,10 @@ configurations {
 	}
 }
 
+bootJar{
+	archiveFileName = 'single-project-early-bird.jar'
+}
+
 repositories {
 	mavenCentral()
 }
