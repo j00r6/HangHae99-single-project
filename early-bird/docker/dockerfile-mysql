@@ -1,0 +1,15 @@
+FROM mysql:8.0
+
+ENV MYSQL_USER=${MYSQL_USER}
+# DB 비밀번호
+ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+ENV MYSQL_DATABASE=${MYSQL_DATABASE}
+
+# MySQL 데이터 디렉토리 설정
+VOLUME /var/lib/mysql
+
+EXPOSE 3306
+
+# 컨테이너가 시작되면 MySQL이 자동으로 실행됩니다.
+CMD ["mysqld"]
