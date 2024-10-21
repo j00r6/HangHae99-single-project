@@ -17,7 +17,7 @@ public class SignInRequest {
     private String phone;
     private String address;
 
-    public User SignInRequestToEntity() {
+    public User SignInRequestToEntity(String encryptPassword) {
         return User.builder()
                 .name(this.name)
                 .email(this.email)

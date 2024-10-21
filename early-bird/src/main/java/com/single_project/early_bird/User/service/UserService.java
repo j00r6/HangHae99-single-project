@@ -6,6 +6,7 @@ import com.single_project.early_bird.User.dto.SignInRequest;
 import com.single_project.early_bird.User.entity.User;
 import com.single_project.early_bird.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     public boolean checkLoginIdDuplicate(String email) {
         return userRepository.existsByEmail(email);
@@ -26,9 +28,9 @@ public class UserService {
         if(checkVerifiedByEmail(request.getEmail())) throw new InvalidCredentialsException("이메일 인증을 완료해주세요.");
 
 
-        // TODO : 이메일 암호화 작업 추가
+        // TODO : 비밀번호 외에 정보 암호화 구현
         // SignInRequest 에 정의된 SignInRequestToEntity 활용해 객체 전환
-        User user = request.SignInRequestToEntity();
+        User user = request.SignInRequestToEntity(encoder.encode(request.getPassword()));
 
         userRepository.save(user);
     }
