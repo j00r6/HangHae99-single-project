@@ -16,6 +16,7 @@ public class Wishlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "wishlistId")
     private Long wishlistId;
 
     @ManyToOne(fetch = FetchType.LAZY)
