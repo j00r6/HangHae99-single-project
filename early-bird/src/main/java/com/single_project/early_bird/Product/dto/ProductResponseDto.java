@@ -1,6 +1,5 @@
 package com.single_project.early_bird.Product.dto;
 
-import com.single_project.early_bird.Product.entity.Product;
 import lombok.*;
 
 import java.math.BigDecimal;

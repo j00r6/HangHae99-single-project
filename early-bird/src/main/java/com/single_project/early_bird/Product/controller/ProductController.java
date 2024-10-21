@@ -1,7 +1,6 @@
 package com.single_project.early_bird.Product.controller;
 
 import com.single_project.early_bird.Product.dto.ProductRequestDto;
-import com.single_project.early_bird.Product.dto.ProductResponseDto;
 import com.single_project.early_bird.Product.entity.Product;
 import com.single_project.early_bird.Product.service.ProductService;
 import lombok.RequiredArgsConstructor;

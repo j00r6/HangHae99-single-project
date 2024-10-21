@@ -2,11 +2,9 @@ package com.single_project.early_bird.Product.service;
 
 import com.single_project.early_bird.Global.exception.BadRequestException;
 import com.single_project.early_bird.Product.dto.ProductRequestDto;
-import com.single_project.early_bird.Product.dto.ProductResponseDto;
 import com.single_project.early_bird.Product.entity.Product;
 import com.single_project.early_bird.Product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
