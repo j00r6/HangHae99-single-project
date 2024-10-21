@@ -34,13 +34,16 @@ public class User {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false)
+    private boolean mailVerified;
+
     @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     // 권한에 따른 페이지 분리를 위해 Authority 와 1대다 연관관계 설정
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     private List<Authority> roles = new ArrayList<>();
 
