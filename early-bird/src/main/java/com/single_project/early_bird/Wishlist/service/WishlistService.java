@@ -19,18 +19,22 @@ public class WishlistService {
     private final ProductService productService;
     private final UserService userService;
 
-    public void addFavorite(Long productId) {
+    public void addFavorite(Long userId, Long productId) {
         Product product = productService.getProduct(productId);
-//        User user = userService.findVerifyUser(userId);
+        User user = userService.findVerifyUser(userId);
 
         Wishlist wishlist = new Wishlist();
         wishlist.setProduct(product);
-//        wishlist.setUser(user);
-
+        wishlist.setUser(user);
         wishlistRepository.save(wishlist);
     }
 
-    public void removeFavorite(Long productId) {}
+    public void removeFavorite(Long userId, Long productId) {
+        getFavorite(productId);
+        User user = userService.findVerifyUser(userId);
+        Wishlist wishlistId = wishlistRepository.findWishlistIdByProduct_ProductId(productId);
+        wishlistRepository.delete(wishlistId);
+    }
 
     public Wishlist getFavorite(Long productId) {
         return findFavorite(productId);
