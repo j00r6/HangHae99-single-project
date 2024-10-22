@@ -2,7 +2,9 @@ package com.single_project.early_bird.Mail.service;
 
 import com.single_project.early_bird.Mail.dto.SendRequestDto;
 import com.single_project.early_bird.Mail.dto.VerifyRequestDto;
-import com.single_project.early_bird.Redis.RedisUtil;
+import com.single_project.early_bird.Redis.RedisEmailUtil;
+import com.single_project.early_bird.User.repository.UserRepository;
+import com.single_project.early_bird.User.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailVerificationService {
 
-    private final RedisUtil redisUtil;
+    private final RedisEmailUtil redisUtil;
     private final MailSendingService mailSendingService;
 
     // 이메일 인증 코드 생성 및 저장
@@ -27,13 +29,13 @@ public class MailVerificationService {
 
     // 이메일 인증 코드 검증
     public boolean verifyCode(VerifyRequestDto request) {
+        String email = request.getTo();
+
         // Redis 에서 저장된 인증 코드 조회
-        String verificationCode = redisUtil.getData(request.getTo());
+        String verificationCode = redisUtil.getData(email);
 
         // 인증 코드 검증
         return verificationCode != null && verificationCode.equals(request.getVerificationCode());
-
-
     }
 }
 

@@ -21,7 +21,7 @@ public class SignInRequest {
         return User.builder()
                 .name(this.name)
                 .email(this.email)
-                .password(this.password)
+                .password(encryptPassword)
                 .phone(this.phone)
                 .address(this.address)
                 .build();

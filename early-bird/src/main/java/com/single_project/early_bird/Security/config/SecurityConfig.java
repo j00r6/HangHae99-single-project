@@ -1,9 +1,11 @@
 package com.single_project.early_bird.Security.config;
 
-import com.single_project.early_bird.jwt.JwtFilter;
-import com.single_project.early_bird.jwt.TokenProvider;
+import com.single_project.early_bird.Redis.RedisJwtUtil;
+import com.single_project.early_bird.jwt.filter.JwtFilter;
+import com.single_project.early_bird.jwt.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -31,8 +33,9 @@ import java.util.Map;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final TokenProvider tokenProvider;
+    private final RedisJwtUtil jwtUtil;
+
     @Value("${spring.security.debug:false}")
     boolean webSecurityDebug;
 
@@ -122,7 +125,7 @@ public class SecurityConfig {
                 .cors((cors) -> cors
                         .configurationSource(corsConfigurationSource()))
 
-                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(tokenProvider, jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 /**
                  * 다중 필터체인 구현에서 authorizeHttpRequests 와 configurationSource 의 연관관계
                  *

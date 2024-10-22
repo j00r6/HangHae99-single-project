@@ -46,4 +46,15 @@ public class RedisJwtUtil {
         }
         setDataExpire(tokenKey, tokenValue); // 새로 데이터를 저장하면서 만료 시간 설정
     }
+
+    public void addToBlacklist(String token) {
+        ValueOperations<String, String> valueOperations = template.opsForValue();
+        Duration expireDuration = Duration.ofMinutes(60);  // 블랙리스트에 추가된 토큰의 만료 시간을 60분으로 설정
+        valueOperations.set("blacklist:" + token, "blacklisted", expireDuration);
+    }
+
+    // 특정 JWT 토큰이 블랙리스트에 있는지 확인합니다.
+    public boolean isTokenBlacklisted(String token) {
+        return Boolean.TRUE.equals(template.hasKey("blacklist:" + token));
+    }
 }

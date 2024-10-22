@@ -1,6 +1,7 @@
 package com.single_project.early_bird.jwt.service;
 
 import com.single_project.early_bird.Global.exception.UserNotFoundException;
+import com.single_project.early_bird.Redis.RedisJwtUtil;
 import com.single_project.early_bird.User.entity.User;
 import com.single_project.early_bird.User.repository.UserRepository;
 import com.single_project.early_bird.jwt.dto.LogInRequest;
@@ -22,8 +23,10 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder managerBuilder;
     private final TokenService tokenService;
+    private final RedisJwtUtil redisJwtUtil;
 
-    public void login(LogInRequest request, HttpServletResponse response) {
+    public void login(LogInRequest request, HttpServletResponse headers) {
+        log.info("로그인 요청 이메일 : " + request.getEmail());
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(request.getEmail() + " 해당 계정의 가입 정보를 확인할 수 없습니다. 회원가입을 진행해 주세요"));
 
@@ -37,11 +40,23 @@ public class AuthService {
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
 
         String accessToken = tokenProvider.generateAccessToken(authentication);
-        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        log.info("accessToken 발급 확인 (service) : " + accessToken);
+        headers.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 
         String refreshToken = tokenProvider.generateRefreshToken(authentication);
-        response.setHeader("X-Refresh-Token", refreshToken);
 
         tokenService.saveRefreshToken(request.getEmail(), refreshToken);
+    }
+
+    public void logout(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("해당 계정의 가입 정보를 확인할 수 없습니다. 회원가입을 진행해 주세요"));
+        String email = user.getEmail();
+
+        //로그아웃시 JWT 를 관리하는 redisJwtUtil 에서 refreshToken 을 블랙리스트 처리
+        redisJwtUtil.addToBlacklist(email);
+        tokenService.deleteRefreshToken(email);
+        userRepository.deleteById(userId);
+
     }
 }

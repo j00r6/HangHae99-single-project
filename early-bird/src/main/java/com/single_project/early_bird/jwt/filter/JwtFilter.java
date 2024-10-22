@@ -1,5 +1,6 @@
 package com.single_project.early_bird.jwt.filter;
 
+import com.single_project.early_bird.Redis.RedisJwtUtil;
 import com.single_project.early_bird.jwt.provider.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ public class JwtFilter extends GenericFilterBean {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     private final TokenProvider tokenProvider;
+    private final RedisJwtUtil redisJwtUtil;
 
     // 실제 필터릴 로직
     // 토큰의 인증정보를 SecurityContext에 저장하는 역할 수행
@@ -34,8 +36,8 @@ public class JwtFilter extends GenericFilterBean {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.info("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
-        } else {
-            log.info("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
+        } else if (redisJwtUtil.isTokenBlacklisted(jwt)) {
+            log.info("토큰이 유효하지 않습니다, uri: {}", requestURI);
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
