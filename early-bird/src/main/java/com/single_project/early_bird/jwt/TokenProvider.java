@@ -47,7 +47,7 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createAccessToken(Authentication authentication) {
+    public String generateAccessToken(Authentication authentication) {
 
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -68,8 +68,7 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
-
-    public String createRefreshToken(Authentication authentication) {
+    public String generateRefreshToken(Authentication authentication) {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         Date retExpiryDate = new Date(new Date().getTime() + refreshTokenTime);
@@ -81,17 +80,6 @@ public class TokenProvider implements InitializingBean {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
-
-    public Long getUserIdFromToken(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("memberId", Long.class);
-    }
-
 
     // 토큰으로 클레임을 만들고 이를 이용해 유저 객체를 만들어서 최종적으로 authentication 객체를 리턴
     public Authentication getAuthentication(String accessToken) {
@@ -107,7 +95,6 @@ public class TokenProvider implements InitializingBean {
 
         return new UsernamePasswordAuthenticationToken(principal, accessToken, authorities);
     }
-
 
     // 토큰의 유효성 검증을 수행
     public boolean validateAcessToken(String accessToken) {

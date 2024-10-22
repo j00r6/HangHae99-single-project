@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -33,5 +35,13 @@ public class UserService {
         User user = request.SignInRequestToEntity(encoder.encode(request.getPassword()));
 
         userRepository.save(user);
+    }
+
+    public User findUserByPrincipal(String principal) {
+        Optional<User> optionalUser = userRepository.findByEmail(principal);
+        if (!optionalUser.isPresent()) {
+            return null;
+        }
+        return optionalUser.get();
     }
 }
