@@ -27,9 +27,9 @@ public class ProductService {
         return findVerifyProduct(productId);
     }
 
-    private Product findVerifyProduct(Long productId) {
+    public Product findVerifyProduct(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
-        Product findProduct = product.orElseThrow(() -> new BadRequestException("Product not found"));
+        Product findProduct = product.orElseThrow(() -> new BadRequestException("재고가 없습니다"));
         return findProduct;
     }
 

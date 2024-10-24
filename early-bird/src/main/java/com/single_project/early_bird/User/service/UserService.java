@@ -25,13 +25,13 @@ public class UserService {
     public boolean checkLoginIdDuplicate(String email) {
         return userRepository.existsByEmail(email);
     }
-    public boolean checkVerifiedByEmail(String email) {
-        return userRepository.findVerifiedByEmail(email);
-    }
+//    public boolean checkVerifiedByEmail(String email) {
+//        return userRepository.findVerifiedByEmail(email);
+//    }
 
     public void signInUser (SignInRequest request) {
         if(checkLoginIdDuplicate(request.getEmail())) throw new BadRequestException("이미 존재하는 이메일입니다.");
-        if(checkVerifiedByEmail(request.getEmail())) throw new InvalidCredentialsException("이메일 인증을 완료해주세요.");
+//        if(checkVerifiedByEmail(request.getEmail())) throw new InvalidCredentialsException("이메일 인증을 완료해주세요.");
 
 
         // TODO : 비밀번호 외에 정보 암호화 구현

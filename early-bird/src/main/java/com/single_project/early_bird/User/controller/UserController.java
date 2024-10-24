@@ -23,6 +23,8 @@ public class UserController {
     public ResponseEntity<String> memberSignIn(@RequestBody SignInRequest request) {
 
         userService.signInUser(request);
-        return new ResponseEntity<>("회원가입 성공!", HttpStatus.OK);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("회원가입 완료");
     }
 }

@@ -31,13 +31,19 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProducts(@RequestParam(required = false, defaultValue = "0") Long cursor,
                                                      @RequestParam(required = false, defaultValue = "10") int pageSize) {
         List<Product> findProducts = productService.getProductsAfterCursor(cursor, pageSize);
-        return ResponseEntity.ok(findProducts);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(findProducts);
     }
 
-    @GetMapping("/{product-id}")
-    public ResponseEntity getProduct(@PathVariable("product-id") Long productId) {
+    @GetMapping("/{productId}")
+    public ResponseEntity getProduct(@PathVariable("productId") Long productId) {
         log.info("제품 아이디 확인 : " + productId);
         Product findProduct = productService.getProduct(productId);
-        return ResponseEntity.ok(findProduct);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(findProduct);
     }
 }
