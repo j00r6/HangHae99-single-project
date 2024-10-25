@@ -20,7 +20,7 @@ public class ProductService {
 
     public List<Product> getProductsAfterCursor(Long cursor, int pageSize) {
         Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Order.asc("id")));
-        return productRepository.findPostsAfterCursor(cursor, pageable);
+        return productRepository.findProductsAfterCursor(cursor, pageable);
     }
 
     public Product getProduct(Long productId) {
@@ -35,6 +35,14 @@ public class ProductService {
 
     public void registerProduct(ProductRequestDto request) {
         Product product = request.RequestDtoToEntity(request);
+        productRepository.save(product);
+    }
+
+    public void decreaseStock(Product product, int orderQuantity) {
+        if (product.getStockQuantity() < orderQuantity) {
+            throw new BadRequestException("제품 수량이 부족합니다");
+        }
+        product.setStockQuantity(product.getStockQuantity() - orderQuantity);
         productRepository.save(product);
     }
 }

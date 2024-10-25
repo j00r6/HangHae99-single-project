@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long>  {
     @Query("SELECT p FROM Product p WHERE p.productId > :cursor ORDER BY p.productId ASC")
-    List<Product> findPostsAfterCursor(@Param("cursor") Long cursor, Pageable pageable);
+    List<Product> findProductsAfterCursor(@Param("cursor") Long cursor, Pageable pageable);
 }

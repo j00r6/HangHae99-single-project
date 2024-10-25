@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderItem {
 
     @Id
@@ -31,5 +32,6 @@ public class OrderItem {
 
     @Column(nullable = false)
     private BigDecimal price;
+
 }
 
