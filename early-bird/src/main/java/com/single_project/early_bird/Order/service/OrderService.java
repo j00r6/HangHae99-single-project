@@ -9,7 +9,6 @@ import com.single_project.early_bird.Order.entity.OrderStatus;
 import com.single_project.early_bird.Order.repository.OrderRepository;
 import com.single_project.early_bird.OrderItem.dto.OrderItemRequest;
 import com.single_project.early_bird.OrderItem.entity.OrderItem;
-import com.single_project.early_bird.OrderItem.repository.OrderItemRepository;
 import com.single_project.early_bird.OrderItem.service.OrderItemService;
 import com.single_project.early_bird.Product.entity.Product;
 import com.single_project.early_bird.Product.service.ProductService;
@@ -24,10 +23,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -101,8 +98,11 @@ public class OrderService {
     // 주문 리스트에 현재 주문 상태 추가하기
     // 주문 완료일로부터 1일 후에 배송중, 2일 후에 도착
     public void calculateOrderStatus(Order order) {
+        // today = 서버 시간을 오늘로 설정하고 주문 내역에서 날짜와 비교
         LocalDateTime today = LocalDateTime.now();
+        // 하루가 지나면 배송중
         LocalDateTime shippingDate = order.getCreatedAt().plusDays(1);
+        // 이틀이 지나면 도착
         LocalDateTime completedDate = order.getCreatedAt().plusDays(2);
 
         if (today.isBefore(shippingDate)) {
@@ -130,11 +130,31 @@ public class OrderService {
             // 주문 상태를 주문 취소로 변경
             findOrder.setStatus(OrderStatus.CANCELED);
             // 주문 내역에서 가져온 수량만큼 재고 증가
-            findProduct.setStockQuantity(cancelledStock);
+            productService.increaseStock(productId, cancelledStock);
         } else {
             // 주문이 배송 단계로 넘어간 경우
-            throw new BadRequestException("배송이 시작되어 환불 진행이 어렵습니다. 판매처에 문의해주세요");
+            throw new BadRequestException("배송이 시작되어 주문 취소 진행이 어렵습니다. 판매처에 문의해주세요");
         }
+    }
+
+    public void refundOrder(Long userId, Long orderId) {
+        Order findOrder = orderRepository.findOrderByUserIdAndOrderId(userId, orderId);
+
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime completedDate = findOrder.getCreatedAt().plusDays(2);
+
+        if (today.isAfter(completedDate.plusDays(1))) {
+            throw new BadRequestException("반품 기간이 지나 반품이 불가합니다.");
+        }
+
+        Long productId = orderItemService.getProductId(orderId);
+        Product findProduct = productService.findVerifyProduct(productId);
+
+        int cancelledStock = extractQuantity(findOrder);
+        productService.increaseStock(productId, cancelledStock);
+
+        findOrder.setStatus(OrderStatus.REFUNDED);
+        orderRepository.save(findOrder);
     }
 
     public Order findOrderByUserId(Long userId) {
@@ -147,6 +167,5 @@ public class OrderService {
                 .mapToInt(OrderItem::getQuantity)
                 .sum();
     }
-
 }
 

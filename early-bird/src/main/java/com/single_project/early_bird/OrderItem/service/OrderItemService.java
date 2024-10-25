@@ -25,4 +25,8 @@ public class OrderItemService {
                 .build();
         orderItemRepository.save(orderItem);
     }
+
+    public Long getProductId(Long orderId){
+        return orderItemRepository.findProductIdByOrderId(orderId);
+    }
 }
