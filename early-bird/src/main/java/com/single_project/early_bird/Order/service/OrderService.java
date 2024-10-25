@@ -3,6 +3,7 @@ package com.single_project.early_bird.Order.service;
 import com.single_project.early_bird.Global.exception.BadRequestException;
 import com.single_project.early_bird.Global.exception.UserNotFoundException;
 import com.single_project.early_bird.Order.dto.OrderRequest;
+import com.single_project.early_bird.Order.dto.OrderResponse;
 import com.single_project.early_bird.Order.entity.Order;
 import com.single_project.early_bird.Order.entity.OrderStatus;
 import com.single_project.early_bird.Order.repository.OrderRepository;
@@ -24,7 +25,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +53,7 @@ public class OrderService {
         order.setUser(findUser);
         order.setStatus(OrderStatus.PROCESSING);
         BigDecimal totalPrice = BigDecimal.ZERO;
+        order.setTotalPrice(totalPrice);
         orderRepository.save(order);
 
         // 주문 요청 OrderItemRequest 에서 주문정보를 받아오는 과정
@@ -65,7 +70,6 @@ public class OrderService {
             orderItemService.createOrderItem(product, requestQuantity, requestPrice, order);
 
             totalPrice = calculateTotalPrice(request);
-            order.setTotalPrice(totalPrice);
         }
 
         // totalPrice 갱신
@@ -79,5 +83,70 @@ public class OrderService {
                 .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    // 주문 리스트 가져오기
+    public List<OrderResponse> getOrdersAfterCursor(Long userId, Long cursor, int pageSize) {
+        Order findOrder = findOrderByUserId(userId);
+
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Order.desc("createdAt")));
+        List<Order> orders = orderRepository.findOrdersByUserIdAndCursor(userId, cursor, pageable);
+
+        orders.forEach(this::calculateOrderStatus);
+
+        return orders.stream()
+                .map(OrderResponse::OrderEntityToOrderResponse)
+                .collect(Collectors.toList());
+    }
+
+    // 주문 리스트에 현재 주문 상태 추가하기
+    // 주문 완료일로부터 1일 후에 배송중, 2일 후에 도착
+    public void calculateOrderStatus(Order order) {
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime shippingDate = order.getCreatedAt().plusDays(1);
+        LocalDateTime completedDate = order.getCreatedAt().plusDays(2);
+
+        if (today.isBefore(shippingDate)) {
+            order.setStatus(OrderStatus.PENDING);
+        } else if (today.isBefore(completedDate)) {
+            order.setStatus(OrderStatus.SHIPPING);
+        } else {
+            order.setStatus(OrderStatus.COMPLETED);
+        }
+    }
+
+    public void cancelOrder(Long userId, Long orderId) {
+        // 주문번호와 유저 정보로 특정 유저의 주문내역을 가져온다.
+        Order findOrder = orderRepository.findOrderByUserIdAndOrderId(userId, orderId);
+
+        // 주문 내역에서 재고만 뽑아 따로 저장 (취소 시 재고관리를 위해)
+        int cancelledStock = extractQuantity(findOrder);
+
+        // 주문 정보에 포함되있는 제품 정보로 상세조회
+        Long productId = orderItemService.getProductId(orderId);
+        Product findProduct = productService.findVerifyProduct(productId);
+
+        // 주문이 배송 단계로 넘어가기 전일 경우
+        if(findOrder.getStatus() == OrderStatus.PENDING || findOrder.getStatus() == OrderStatus.PROCESSING) {
+            // 주문 상태를 주문 취소로 변경
+            findOrder.setStatus(OrderStatus.CANCELED);
+            // 주문 내역에서 가져온 수량만큼 재고 증가
+            findProduct.setStockQuantity(cancelledStock);
+        } else {
+            // 주문이 배송 단계로 넘어간 경우
+            throw new BadRequestException("배송이 시작되어 환불 진행이 어렵습니다. 판매처에 문의해주세요");
+        }
+    }
+
+    public Order findOrderByUserId(Long userId) {
+        return orderRepository.findById(userId)
+                .orElseThrow(() -> new BadRequestException("주문 정보가 없습니다"));
+    }
+
+    public int extractQuantity (Order order) {
+        return order.getOrderItems().stream()
+                .mapToInt(OrderItem::getQuantity)
+                .sum();
+    }
+
 }
 

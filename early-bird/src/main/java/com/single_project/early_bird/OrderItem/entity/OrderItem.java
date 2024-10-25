@@ -9,7 +9,8 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "OrderItem")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
