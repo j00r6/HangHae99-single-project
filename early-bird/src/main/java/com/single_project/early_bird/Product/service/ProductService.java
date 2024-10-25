@@ -45,4 +45,10 @@ public class ProductService {
         product.setStockQuantity(product.getStockQuantity() - orderQuantity);
         productRepository.save(product);
     }
+
+    public void increaseStock(Long productId, int cancelledStock){
+        Product product = findVerifyProduct(productId);
+        product.setStockQuantity(product.getStockQuantity() + cancelledStock);
+
+    }
 }

@@ -5,7 +5,6 @@ import com.single_project.early_bird.jwt.filter.JwtFilter;
 import com.single_project.early_bird.jwt.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

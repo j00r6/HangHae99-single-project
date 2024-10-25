@@ -1,9 +1,6 @@
 package com.single_project.early_bird.jwt.service;
 
 import com.single_project.early_bird.Redis.RedisJwtUtil;
-import com.single_project.early_bird.jwt.dto.LogInRequest;
-import com.single_project.early_bird.jwt.provider.TokenProvider;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

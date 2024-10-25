@@ -3,7 +3,6 @@ package com.single_project.early_bird.Order.controller;
 
 import com.single_project.early_bird.Order.dto.OrderRequest;
 import com.single_project.early_bird.Order.dto.OrderResponse;
-import com.single_project.early_bird.Order.entity.Order;
 import com.single_project.early_bird.Order.service.OrderService;
 import com.single_project.early_bird.Security.resolver.LoginUserId;
 import lombok.RequiredArgsConstructor;

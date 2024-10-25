@@ -42,7 +42,7 @@ public class WishlistService {
 
     private Wishlist findFavorite(Long productId) {
         Optional<Wishlist> wishlist = wishlistRepository.findById(productId);
-        Wishlist findFavorite = wishlist.orElseThrow(() -> new BadRequestException("Product not found"));
+        Wishlist findFavorite = wishlist.orElseThrow(() -> new BadRequestException("제품 정보가 존재하지 않습니다"));
         return findFavorite;
     }
 }

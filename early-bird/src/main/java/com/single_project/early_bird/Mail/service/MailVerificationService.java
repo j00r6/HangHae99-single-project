@@ -3,8 +3,6 @@ package com.single_project.early_bird.Mail.service;
 import com.single_project.early_bird.Mail.dto.SendRequestDto;
 import com.single_project.early_bird.Mail.dto.VerifyRequestDto;
 import com.single_project.early_bird.Redis.RedisEmailUtil;
-import com.single_project.early_bird.User.repository.UserRepository;
-import com.single_project.early_bird.User.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
