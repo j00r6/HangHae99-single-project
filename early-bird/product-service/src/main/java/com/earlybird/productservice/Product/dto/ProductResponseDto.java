@@ -1,6 +1,9 @@
-package com.single_project.early_bird.Product.dto;
+package com.earlybird.productservice.Product.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 @Getter

@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Product.controller;
+package com.earlybird.productservice.Product.controller;
 
 import com.single_project.early_bird.Product.dto.ProductRequestDto;
 import com.single_project.early_bird.Product.entity.Product;

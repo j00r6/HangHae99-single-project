@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Product.entity;
+package com.earlybird.productservice.Product.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

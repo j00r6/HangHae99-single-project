@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Product.service;
+package com.earlybird.productservice.Product.service;
 
 import com.single_project.early_bird.Global.exception.BadRequestException;
 import com.single_project.early_bird.Product.dto.ProductRequestDto;
