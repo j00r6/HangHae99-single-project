@@ -1,10 +1,10 @@
 package com.earlybird.orderservice.Order.controller;
 
 
-import com.single_project.early_bird.Order.dto.OrderRequest;
-import com.single_project.early_bird.Order.dto.OrderResponse;
-import com.single_project.early_bird.Order.service.OrderService;
-import com.single_project.early_bird.Security.resolver.LoginUserId;
+import com.earlybird.orderservice.Order.dto.OrderRequest;
+import com.earlybird.orderservice.Order.dto.OrderResponse;
+import com.earlybird.orderservice.Order.service.OrderService;
+import com.earlybird.userservice.Security.resolver.LoginUserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
