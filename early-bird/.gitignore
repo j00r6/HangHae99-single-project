@@ -41,12 +41,9 @@ out/
 
 ### 설정파일 제외
 application.yml
-application-user.yml
-application-product.yml
-application-order.yml
-dockerfile-mysql
-dockerfile-redis
-dockerfile-UserService
-dockerfile-ProductService
-dockerfile-OrderService
-docker-compose.yml
+src/main/resources/application-user.yml
+src/main/resources/application-product.yml
+src/main/resources/application-order.yml
+docker/dockerfile-mysql
+docker/dockerfile-redis
+docker/docker-compose.yml
