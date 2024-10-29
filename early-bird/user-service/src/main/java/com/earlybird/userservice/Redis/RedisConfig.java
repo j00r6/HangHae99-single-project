@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Redis;
+package com.earlybird.userservice.Redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

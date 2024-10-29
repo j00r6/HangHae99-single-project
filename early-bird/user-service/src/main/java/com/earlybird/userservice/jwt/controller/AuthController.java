@@ -1,8 +1,8 @@
 package com.earlybird.userservice.jwt.controller;
 
-import com.single_project.early_bird.Security.resolver.LoginUserId;
-import com.single_project.early_bird.jwt.dto.LogInRequest;
-import com.single_project.early_bird.jwt.service.AuthService;
+import com.earlybird.userservice.Security.resolver.LoginUserId;
+import com.earlybird.userservice.jwt.dto.LogInRequest;
+import com.earlybird.userservice.jwt.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

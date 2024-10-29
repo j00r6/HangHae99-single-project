@@ -1,6 +1,6 @@
 package com.earlybird.userservice.User.repository;
 
-import com.single_project.early_bird.User.entity.User;
+import com.earlybird.userservice.User.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
