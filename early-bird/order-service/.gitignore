@@ -35,3 +35,14 @@ out/
 
 ### VS Code ###
 .vscode/
+
+application.yml
+application-user.yml
+application-product.yml
+application-order.yml
+dockerfile-mysql
+dockerfile-redis
+dockerfile-UserService
+dockerfile-ProductService
+dockerfile-OrderService
+docker-compose.yml
