@@ -1,6 +1,6 @@
 package com.earlybird.productservice.Product.dto;
 
-import com.single_project.early_bird.Product.entity.Product;
+import com.earlybird.productservice.Product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

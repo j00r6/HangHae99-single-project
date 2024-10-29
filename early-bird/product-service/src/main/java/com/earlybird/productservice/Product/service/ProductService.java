@@ -1,9 +1,9 @@
 package com.earlybird.productservice.Product.service;
 
-import com.single_project.early_bird.Global.exception.BadRequestException;
-import com.single_project.early_bird.Product.dto.ProductRequestDto;
-import com.single_project.early_bird.Product.entity.Product;
-import com.single_project.early_bird.Product.repository.ProductRepository;
+import com.earlybird.productservice.Global.exception.BadRequestException;
+import com.earlybird.productservice.Product.dto.ProductRequestDto;
+import com.earlybird.productservice.Product.entity.Product;
+import com.earlybird.productservice.Product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

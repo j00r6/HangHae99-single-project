@@ -1,12 +1,12 @@
 package com.earlybird.productservice.Wishlist.service;
 
-import com.single_project.early_bird.Global.exception.BadRequestException;
-import com.single_project.early_bird.Product.entity.Product;
-import com.single_project.early_bird.Product.service.ProductService;
+import com.earlybird.productservice.Global.exception.BadRequestException;
+import com.earlybird.productservice.Product.entity.Product;
+import com.earlybird.productservice.Product.service.ProductService;
 import com.single_project.early_bird.User.entity.User;
 import com.single_project.early_bird.User.service.UserService;
-import com.single_project.early_bird.Wishlist.entity.Wishlist;
-import com.single_project.early_bird.Wishlist.repository.WishlistRepository;
+import com.earlybird.productservice.Wishlist.entity.Wishlist;
+import com.earlybird.productservice.Wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

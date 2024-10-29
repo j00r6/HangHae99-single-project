@@ -1,8 +1,8 @@
 package com.earlybird.productservice.Product.controller;
 
-import com.single_project.early_bird.Product.dto.ProductRequestDto;
-import com.single_project.early_bird.Product.entity.Product;
-import com.single_project.early_bird.Product.service.ProductService;
+import com.earlybird.productservice.Product.dto.ProductRequestDto;
+import com.earlybird.productservice.Product.entity.Product;
+import com.earlybird.productservice.Product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

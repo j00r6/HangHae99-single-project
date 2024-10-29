@@ -1,6 +1,6 @@
 package com.earlybird.productservice.Wishlist.repository;
 
-import com.single_project.early_bird.Wishlist.entity.Wishlist;
+import com.earlybird.productservice.Wishlist.entity.Wishlist;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WishlistRepository extends JpaRepository<Wishlist, Long>  {
