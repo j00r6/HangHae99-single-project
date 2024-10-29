@@ -1,1 +1,3 @@
 rootProject.name = 'early-bird'
+
+include 'product-service'
