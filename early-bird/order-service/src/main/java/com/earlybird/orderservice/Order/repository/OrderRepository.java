@@ -1,6 +1,6 @@
 package com.earlybird.orderservice.Order.repository;
 
-import com.single_project.early_bird.Order.entity.Order;
+import com.earlybird.orderservice.Order.entity.Order;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
