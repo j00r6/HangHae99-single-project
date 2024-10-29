@@ -1,8 +1,8 @@
 package com.earlybird.orderservice.Order.entity;
 
-import com.single_project.early_bird.Order.entity.OrderStatus;
-import com.single_project.early_bird.OrderItem.entity.OrderItem;
-import com.single_project.early_bird.User.entity.User;
+import com.earlybird.orderservice.Order.entity.OrderStatus;
+import com.earlybird.orderservice.OrderItem.entity.OrderItem;
+import com.earlybird.userservice.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,7 +1,7 @@
 package com.earlybird.productservice.Wishlist.entity;
 
-import com.single_project.early_bird.Product.entity.Product;
-import com.single_project.early_bird.User.entity.User;
+import com.earlybird.productservice.Product.entity.Product;
+import com.earlybird.userservice.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 

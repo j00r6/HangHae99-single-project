@@ -1,7 +1,7 @@
 package com.earlybird.userservice.Security.userdetails;
 
-import com.single_project.early_bird.User.entity.Authority;
-import com.single_project.early_bird.User.entity.User;
+import com.earlybird.userservice.User.entity.Authority;
+import com.earlybird.userservice.User.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,6 +1,6 @@
 package com.earlybird.orderservice.OrderItem.dto;
 
-import com.single_project.early_bird.OrderItem.entity.OrderItem;
+import com.earlybird.orderservice.OrderItem.entity.OrderItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

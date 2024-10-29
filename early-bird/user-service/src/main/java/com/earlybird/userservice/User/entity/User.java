@@ -1,6 +1,6 @@
 package com.earlybird.userservice.User.entity;
 
-import com.single_project.early_bird.User.entity.Authority;
+import com.earlybird.userservice.User.entity.Authority;
 import jakarta.persistence.*;
 import lombok.*;
 

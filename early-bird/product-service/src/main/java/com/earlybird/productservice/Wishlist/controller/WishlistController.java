@@ -1,8 +1,8 @@
 package com.earlybird.productservice.Wishlist.controller;
 
-import com.single_project.early_bird.Security.resolver.LoginUserId;
-import com.single_project.early_bird.Wishlist.entity.Wishlist;
-import com.single_project.early_bird.Wishlist.service.WishlistService;
+import com.earlybird.userservice.Security.resolver.LoginUserId;
+import com.earlybird.productservice.Wishlist.entity.Wishlist;
+import com.earlybird.productservice.Wishlist.service.WishlistService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;

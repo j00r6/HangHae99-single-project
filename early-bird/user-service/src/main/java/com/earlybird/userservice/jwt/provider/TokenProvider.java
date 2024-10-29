@@ -1,8 +1,8 @@
 package com.earlybird.userservice.jwt.provider;
 
-import com.single_project.early_bird.Global.exception.IllegalToken;
-import com.single_project.early_bird.Global.exception.TokenExpiredException;
-import com.single_project.early_bird.Security.userdetails.CustomUserDetails;
+import com.earlybird.userservice.Global.exception.IllegalToken;
+import com.earlybird.userservice.Global.exception.TokenExpiredException;
+import com.earlybird.userservice.Security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

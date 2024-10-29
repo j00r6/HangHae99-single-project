@@ -1,8 +1,8 @@
 package com.earlybird.userservice.Mail.controller;
 
-import com.single_project.early_bird.Mail.dto.SendRequestDto;
-import com.single_project.early_bird.Mail.dto.VerifyRequestDto;
-import com.single_project.early_bird.Mail.service.MailVerificationService;
+import com.earlybird.userservice.Mail.dto.SendRequestDto;
+import com.earlybird.userservice.Mail.dto.VerifyRequestDto;
+import com.earlybird.userservice.Mail.service.MailVerificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

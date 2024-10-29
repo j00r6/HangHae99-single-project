@@ -1,11 +1,11 @@
 package com.earlybird.userservice.User.service;
 
-import com.single_project.early_bird.Global.exception.BadRequestException;
-import com.single_project.early_bird.Global.exception.UserNotFoundException;
-import com.single_project.early_bird.User.dto.SignInRequest;
-import com.single_project.early_bird.User.entity.Authority;
-import com.single_project.early_bird.User.entity.User;
-import com.single_project.early_bird.User.repository.UserRepository;
+import com.earlybird.userservice.Global.exception.BadRequestException;
+import com.earlybird.userservice.Global.exception.UserNotFoundException;
+import com.earlybird.userservice.User.dto.SignInRequest;
+import com.earlybird.userservice.User.entity.Authority;
+import com.earlybird.userservice.User.entity.User;
+import com.earlybird.userservice.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

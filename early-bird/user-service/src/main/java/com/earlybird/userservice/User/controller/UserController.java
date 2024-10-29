@@ -1,7 +1,7 @@
 package com.earlybird.userservice.User.controller;
 
-import com.single_project.early_bird.User.dto.SignInRequest;
-import com.single_project.early_bird.User.service.UserService;
+import com.earlybird.userservice.User.dto.SignInRequest;
+import com.earlybird.userservice.User.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.earlybird.userservice.Security.resolver;
 
-import com.single_project.early_bird.User.entity.User;
-import com.single_project.early_bird.User.service.UserService;
+import com.earlybird.userservice.User.entity.User;
+import com.earlybird.userservice.User.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;

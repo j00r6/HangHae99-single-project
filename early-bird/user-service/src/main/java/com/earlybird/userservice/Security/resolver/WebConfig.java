@@ -1,6 +1,6 @@
 package com.earlybird.userservice.Security.resolver;
 
-import com.single_project.early_bird.Security.resolver.LoginUserIdArgumentResolver;
+import com.earlybird.userservice.Security.resolver.LoginUserIdArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

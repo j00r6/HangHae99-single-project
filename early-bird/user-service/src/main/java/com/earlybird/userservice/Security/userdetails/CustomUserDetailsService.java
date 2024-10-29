@@ -1,8 +1,8 @@
 package com.earlybird.userservice.Security.userdetails;
 
-import com.single_project.early_bird.Global.exception.BadRequestException;
-import com.single_project.early_bird.User.entity.User;
-import com.single_project.early_bird.User.repository.UserRepository;
+import com.earlybird.userservice.Global.exception.BadRequestException;
+import com.earlybird.userservice.User.entity.User;
+import com.earlybird.userservice.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;

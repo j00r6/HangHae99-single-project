@@ -1,6 +1,6 @@
 package com.earlybird.userservice.User.dto;
 
-import com.single_project.early_bird.User.entity.User;
+import com.earlybird.userservice.User.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

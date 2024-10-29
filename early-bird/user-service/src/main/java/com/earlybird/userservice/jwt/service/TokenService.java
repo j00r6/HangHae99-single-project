@@ -1,6 +1,6 @@
 package com.earlybird.userservice.jwt.service;
 
-import com.single_project.early_bird.Redis.RedisJwtUtil;
+import com.earlybird.userservice.Redis.RedisJwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
