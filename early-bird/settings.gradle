@@ -1,3 +1,4 @@
 rootProject.name = 'early-bird'
 
 include 'product-service'
+include 'user-service'
