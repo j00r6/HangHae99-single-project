@@ -1,9 +1,9 @@
 package com.earlybird.orderservice.OrderItem.service;
 
-import com.single_project.early_bird.Order.entity.Order;
-import com.single_project.early_bird.OrderItem.entity.OrderItem;
-import com.single_project.early_bird.OrderItem.repository.OrderItemRepository;
-import com.single_project.early_bird.Product.entity.Product;
+import com.earlybird.orderservice.Order.entity.Order;
+import com.earlybird.orderservice.OrderItem.entity.OrderItem;
+import com.earlybird.orderservice.OrderItem.repository.OrderItemRepository;
+import com.earlybird.productservice.Product.entity.Product;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
