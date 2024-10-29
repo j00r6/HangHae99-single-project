@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Wishlist.controller;
+package com.earlybird.productservice.Wishlist.controller;
 
 import com.single_project.early_bird.Security.resolver.LoginUserId;
 import com.single_project.early_bird.Wishlist.entity.Wishlist;

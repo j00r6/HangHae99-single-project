@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Wishlist.repository;
+package com.earlybird.productservice.Wishlist.repository;
 
 import com.single_project.early_bird.Wishlist.entity.Wishlist;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Wishlist.entity;
+package com.earlybird.productservice.Wishlist.entity;
 
 import com.single_project.early_bird.Product.entity.Product;
 import com.single_project.early_bird.User.entity.User;

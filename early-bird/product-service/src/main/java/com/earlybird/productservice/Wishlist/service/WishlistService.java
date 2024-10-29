@@ -1,4 +1,4 @@
-package com.single_project.early_bird.Wishlist.service;
+package com.earlybird.productservice.Wishlist.service;
 
 import com.single_project.early_bird.Global.exception.BadRequestException;
 import com.single_project.early_bird.Product.entity.Product;
