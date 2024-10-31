@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
-    public void createOrderItem(Product product, int quantity, BigDecimal price, Order order) {
+    public void createOrderItem(Long product, int quantity, BigDecimal price, Order order) {
         OrderItem orderItem = OrderItem.builder()
                 .product(product)
                 .quantity(quantity)

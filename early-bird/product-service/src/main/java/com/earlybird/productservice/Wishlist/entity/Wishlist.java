@@ -1,7 +1,6 @@
 package com.earlybird.productservice.Wishlist.entity;
 
 import com.earlybird.productservice.Product.entity.Product;
-import com.earlybird.userservice.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,9 +18,7 @@ public class Wishlist {
     @Column(name = "wishlistId")
     private Long wishlistId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", nullable = false)
-    private User user;
+    private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId", nullable = false)

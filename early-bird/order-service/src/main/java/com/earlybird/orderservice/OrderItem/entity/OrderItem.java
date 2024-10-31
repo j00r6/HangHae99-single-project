@@ -1,7 +1,6 @@
 package com.earlybird.orderservice.OrderItem.entity;
 
 import com.earlybird.orderservice.Order.entity.Order;
-import com.earlybird.productservice.Product.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,9 +23,7 @@ public class OrderItem {
     @JoinColumn(name = "orderId", nullable = false)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId", nullable = false)
-    private Product product;
+    private Long productId;
 
     @Column(nullable = false)
     private int quantity;

@@ -1,8 +1,6 @@
 package com.earlybird.orderservice.Order.entity;
 
-import com.earlybird.orderservice.Order.entity.OrderStatus;
 import com.earlybird.orderservice.OrderItem.entity.OrderItem;
-import com.earlybird.userservice.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +21,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", nullable = false)
-    private User user;
+    private Long userId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;

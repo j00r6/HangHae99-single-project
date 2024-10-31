@@ -24,7 +24,7 @@ public class OrderResponse {
     public static OrderResponse OrderEntityToOrderResponse(Order order) {
         OrderResponse response = new OrderResponse();
         response.setOrderId(order.getOrderId());
-        response.setUserId(order.getUser().getUserId());
+        response.setUserId(order.getUserId());
         response.setStatus(order.getStatus());
         response.setOrders(OrderItemResponse.OrderItemToItemResponse(order.getOrderItems()));
         return response;

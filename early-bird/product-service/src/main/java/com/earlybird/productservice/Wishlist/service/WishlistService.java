@@ -21,11 +21,11 @@ public class WishlistService {
 
     public void addFavorite(Long userId, Long productId) {
         Product product = productService.getProduct(productId);
-        User user = userService.findVerifyUser(userId);
+        userService.findVerifyUser(userId);
 
         Wishlist wishlist = new Wishlist();
         wishlist.setProduct(product);
-        wishlist.setUser(user);
+        wishlist.setUserId(userId);
         wishlistRepository.save(wishlist);
     }
 

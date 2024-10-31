@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     implementation project(':user-service')
-    implementation project(':order-service')
+    implementation project(':product-service')
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
