@@ -4,34 +4,23 @@ services:
   db:
     container_name: mysql-container
     build:
-      context: ..
-      dockerfile: docker/dockerfile-mysql
+      context: .
+      dockerfile: dockerfile-mysql
     environment:
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1234
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: earlybirdDB
+      MYSQL_DATABASE: earlyBird
     ports:
       - "3306:3306"
     networks:
       - app-network
-  app:
-    container_name: spring-boot-container
-    restart: on-failure
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    environment:
-      SPRING_PROFILES_ACTIVE: server
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/earlybirdDB
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: 1234
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    networks:
-      - app-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   redis:
     image: redis:latest
     container_name: redis
@@ -42,6 +31,61 @@ services:
     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
     networks:
       - app-network
+
+  app-user:
+    container_name: spring-boot-user-container
+    build:
+      context: ..
+      dockerfile: user-service/docker/dockerfile-UserService
+    environment:
+      SPRING_PROFILES_ACTIVE: user
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/earlyBird
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - "9000:9000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  app-product:
+    container_name: spring-boot-product-container
+    build:
+      context: ..
+      dockerfile: product-service/docker/dockerfile-ProductService
+    environment:
+      SPRING_PROFILES_ACTIVE: product
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/earlyBird
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - "9001:9001"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  app-order:
+    container_name: spring-boot-order-container
+    build:
+      context: ..
+      dockerfile: order-service/docker/dockerfile-OrderService
+    environment:
+      SPRING_PROFILES_ACTIVE: order
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/earlyBird
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - "9002:9002"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
