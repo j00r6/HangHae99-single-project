@@ -1,0 +1,20 @@
+# Base image with Gradle
+FROM gradle:7.5.1-jdk17 AS build
+
+# 루트 디렉토리의 settings.gradle 파일 복사
+COPY ../../settings.gradle /app/settings.gradle
+COPY ../build.gradle /app/build.gradle
+COPY ../gradle /app/gradle/
+
+# 필요한 서브 모듈 복사
+COPY ../eureka-server /app/eureka-server
+
+WORKDIR /app/eureka-server
+RUN chmod +x gradlew
+RUN ./gradlew build -x test
+
+FROM bellsoft/liberica-openjdk-alpine:17
+
+COPY --from=build /app/eureka-server/build/libs/*.jar /app/eureka-server.jar
+COPY --from=build /app/eureka-server/src/main/resources/application-eureka.yml /app/application-eureka.yml
+ENTRYPOINT ["java", "-jar", "/app/eureka-server.jar", "--spring.config.location=file:/app/application-eureka.yml"]

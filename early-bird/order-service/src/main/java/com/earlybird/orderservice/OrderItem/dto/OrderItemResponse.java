@@ -24,7 +24,7 @@ public class OrderItemResponse {
         return orderItems.stream()
                 .map(item -> {
                     OrderItemResponse response = new OrderItemResponse();
-                    response.setProductId(item.getProduct().getProductId());
+                    response.setProductId(item.getProductId());
                     response.setQuantity(item.getQuantity());
                     response.setPrice(item.getPrice());
                     return response;

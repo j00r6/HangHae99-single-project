@@ -47,7 +47,7 @@ public class OrderService {
         // TODO : 현재는 orderId 를 주문번호로 사용하고 있지만, 주문번호를 따로 분리할 필요가 있음
         // 주문 초기값 생성
         Order order = new Order();
-        order.setUser(findUser);
+        order.setUserId(userId);
         order.setStatus(OrderStatus.PROCESSING);
         BigDecimal totalPrice = BigDecimal.ZERO;
         order.setTotalPrice(totalPrice);
@@ -64,7 +64,7 @@ public class OrderService {
             productService.decreaseStock(product, requestQuantity);
 
             // 개별 혹은 다중 주문에 대한 생성자 생성
-            orderItemService.createOrderItem(product, requestQuantity, requestPrice, order);
+            orderItemService.createOrderItem(itemRequest.getProductId(), requestQuantity, requestPrice, order);
 
             totalPrice = calculateTotalPrice(request);
         }

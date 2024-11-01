@@ -1,6 +1,5 @@
-package com.earlybird.productservice.Global.handler;
+package com.earlybird.orderservice.Global.handler;
 
-import com.earlybird.productservice.Global.handler.Message;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class OrderGlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Message> handle(BadRequestException e) {

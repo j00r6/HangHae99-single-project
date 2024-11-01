@@ -3,6 +3,8 @@ version: '3.8'
 services:
   db:
     container_name: mysql-container
+    depends_on:
+      - eureka-server
     build:
       context: .
       dockerfile: dockerfile-mysql
@@ -32,57 +34,57 @@ services:
     networks:
       - app-network
 
-  app-user:
-    container_name: spring-boot-user-container
+  eureka-server:
+    container_name: spring-boot-eureka-server
     build:
       context: ..
-      dockerfile: user-service/docker/dockerfile-UserService
-    environment:
-      SPRING_PROFILES_ACTIVE: user
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/earlyBird
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: 1234
-    ports:
-      - "9000:9000"
+      dockerfile: eureka-server/docker/dockerfile-eureka
+    networks:
+      - app-network
+
+  app-api-gateway:
+    container_name: spring-boot-api-gateway
     depends_on:
       db:
         condition: service_healthy
+    build:
+      context: ..
+      dockerfile: api-gateway/docker/dockerfile-gateway
+    networks:
+      - app-network
+
+  app-user:
+    container_name: spring-boot-user-container
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: ..
+      dockerfile: user-service/docker/dockerfile-UserService
     networks:
       - app-network
 
   app-product:
     container_name: spring-boot-product-container
-    build:
-      context: ..
-      dockerfile: product-service/docker/dockerfile-ProductService
-    environment:
-      SPRING_PROFILES_ACTIVE: product
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/earlyBird
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: 1234
-    ports:
-      - "9001:9001"
     depends_on:
       db:
         condition: service_healthy
+    build:
+      context: ..
+      dockerfile: product-service/docker/dockerfile-ProductService
     networks:
       - app-network
 
   app-order:
     container_name: spring-boot-order-container
-    build:
-      context: ..
-      dockerfile: order-service/docker/dockerfile-OrderService
-    environment:
-      SPRING_PROFILES_ACTIVE: order
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/earlyBird
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: 1234
-    ports:
-      - "9002:9002"
     depends_on:
       db:
         condition: service_healthy
+      eureka-server:
+        condition: service_completed_successfully
+    build:
+      context: ..
+      dockerfile: order-service/docker/dockerfile-OrderService
     networks:
       - app-network
 
