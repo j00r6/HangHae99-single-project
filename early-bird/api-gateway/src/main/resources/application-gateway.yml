@@ -13,7 +13,8 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      routes:
+      mvc:
+        routes:
         - id: user-service
           uri: lb://user-service
           predicates:

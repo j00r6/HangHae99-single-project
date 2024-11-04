@@ -40,10 +40,10 @@ public class OrderService {
     public void createOrder(Long userId, OrderRequest request) {
         log.info("주문 정보 : " + request.toString());
 
-        User findUser = userService.findVerifyUser(userId);
-        if (findUser == null) {
-            throw new UserNotFoundException("제품 주문을 위해 로그인을 진행해 주세요");
-        }
+//        User findUser = userService.findVerifyUser(userId);
+//        if (findUser == null) {
+//            throw new UserNotFoundException("제품 주문을 위해 로그인을 진행해 주세요");
+//        }
         // TODO : 현재는 orderId 를 주문번호로 사용하고 있지만, 주문번호를 따로 분리할 필요가 있음
         // 주문 초기값 생성
         Order order = new Order();
@@ -55,13 +55,13 @@ public class OrderService {
 
         // 주문 요청 OrderItemRequest 에서 주문정보를 받아오는 과정
         for (OrderItemRequest itemRequest : request.getCart()) {
-            Product product = productService.findVerifyProduct(itemRequest.getProductId());
+//            Product product = productService.findVerifyProduct(itemRequest.getProductId());
 
             int requestQuantity = itemRequest.getQuantity();
             BigDecimal requestPrice = itemRequest.getPrice();
 
             // 주문에 대한 재고만 관리
-            productService.decreaseStock(product, requestQuantity);
+//            productService.decreaseStock(product, requestQuantity);
 
             // 개별 혹은 다중 주문에 대한 생성자 생성
             orderItemService.createOrderItem(itemRequest.getProductId(), requestQuantity, requestPrice, order);
@@ -123,14 +123,14 @@ public class OrderService {
 
         // 주문 정보에 포함되있는 제품 정보로 상세조회
         Long productId = orderItemService.getProductId(orderId);
-        Product findProduct = productService.findVerifyProduct(productId);
+//        Product findProduct = productService.findVerifyProduct(productId);
 
         // 주문이 배송 단계로 넘어가기 전일 경우
         if(findOrder.getStatus() == OrderStatus.PENDING || findOrder.getStatus() == OrderStatus.PROCESSING) {
             // 주문 상태를 주문 취소로 변경
             findOrder.setStatus(OrderStatus.CANCELED);
             // 주문 내역에서 가져온 수량만큼 재고 증가
-            productService.increaseStock(productId, cancelledStock);
+//            productService.increaseStock(productId, cancelledStock);
         } else {
             // 주문이 배송 단계로 넘어간 경우
             throw new BadRequestException("배송이 시작되어 주문 취소 진행이 어렵습니다. 판매처에 문의해주세요");
@@ -148,10 +148,10 @@ public class OrderService {
         }
 
         Long productId = orderItemService.getProductId(orderId);
-        Product findProduct = productService.findVerifyProduct(productId);
+//        Product findProduct = productService.findVerifyProduct(productId);
 
         int cancelledStock = extractQuantity(findOrder);
-        productService.increaseStock(productId, cancelledStock);
+//        productService.increaseStock(productId, cancelledStock);
 
         findOrder.setStatus(OrderStatus.REFUNDED);
         orderRepository.save(findOrder);

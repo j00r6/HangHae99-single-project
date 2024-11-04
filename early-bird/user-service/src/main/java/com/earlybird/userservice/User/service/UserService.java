@@ -1,7 +1,7 @@
 package com.earlybird.userservice.User.service;
 
-import com.earlybird.userservice.Global.exception.BadRequestException;
-import com.earlybird.userservice.Global.exception.UserNotFoundException;
+import com.earlybird.userservice.GlobalExceptionHandler.exception.BadRequestException;
+import com.earlybird.userservice.GlobalExceptionHandler.exception.UserNotFoundException;
 import com.earlybird.userservice.User.dto.SignInRequest;
 import com.earlybird.userservice.User.entity.Authority;
 import com.earlybird.userservice.User.entity.User;
