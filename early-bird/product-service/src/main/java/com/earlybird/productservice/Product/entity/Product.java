@@ -37,8 +37,8 @@ public class Product {
 
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public ProductResponseDto EntityToRequestDto(Product product) {
-        return ProductResponseDto.builder()
+    public ProductResponseDto.toOrder EntityToRequestDto(Product product) {
+        return ProductResponseDto.toOrder.builder()
                 .productId(this.productId)
                 .name(this.name)
                 .price(this.price)

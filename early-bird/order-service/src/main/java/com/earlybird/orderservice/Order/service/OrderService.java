@@ -170,11 +170,11 @@ public class OrderService {
                 .sum();
     }
 
-    private ProductResponseDto fetchProductByOrderItemProductId(Long productId) {
-        ResponseEntity<ProductResponseDto> response = restClient.get()
+    private ProductResponseDto.toOrder fetchProductByOrderItemProductId(Long productId) {
+        ResponseEntity<ProductResponseDto.toOrder> response = restClient.get()
                 .uri("http://product-service/products/{productId}", productId)
                 .retrieve()
-                .toEntity(ProductResponseDto.class);
+                .toEntity(ProductResponseDto.toOrder.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
             return response.getBody();

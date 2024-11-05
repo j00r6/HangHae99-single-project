@@ -53,10 +53,10 @@ public class ProductController {
      * @return
      */
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("productId") Long productId) {
+    public ResponseEntity<ProductResponseDto.toOrder> getProduct(@PathVariable("productId") Long productId) {
         log.info("제품 아이디 확인 : " + productId);
         Product findProduct = productService.getProduct(productId);
-        ProductResponseDto response = findProduct.EntityToRequestDto(findProduct);
+        ProductResponseDto.toOrder response = findProduct.EntityToRequestDto(findProduct);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
