@@ -105,7 +105,7 @@ public class SecurityConfig {
                  * Member Entity 상에서 Enum 으로 구분할 때
                  * ROLE_"권한" 양식을 사용해야 Spring Security 에서 인식을 한다.
                  */
-                .securityMatcher("/**")
+//                .securityMatcher("/**")
 
                 /**
                  * CORS 설정을 활용하는 방법중 가장 쉬운 방법이 CorsFilter 를 활용하는 방법
@@ -123,8 +123,6 @@ public class SecurityConfig {
                 //CORS withDefaults 사용 시 Bean 으로 등록된 corsConfigurationSource 을 사용합니다.
                 .cors((cors) -> cors
                         .configurationSource(corsConfigurationSource()))
-
-                .addFilterBefore(new JwtFilter(tokenProvider, jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 /**
                  * 다중 필터체인 구현에서 authorizeHttpRequests 와 configurationSource 의 연관관계
                  *
@@ -139,12 +137,23 @@ public class SecurityConfig {
                  * configurationSource 는 단순히 CORS 설정을 위한 것
                  */
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(HttpMethod.POST ,"/**").permitAll()
-                        .requestMatchers(HttpMethod.GET ,"/**").permitAll()
-                        .requestMatchers(HttpMethod.PATCH ,"/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE ,"/**").permitAll()
-                        .anyRequest().permitAll()
-                );
+                        // 회원가입이나 로그인시 인증정보 없이 접근가능
+                        .requestMatchers(HttpMethod.POST ,"/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST ,"/user/signup").permitAll()
+
+                        // 제품 관련 CRUD 는 권한 정보 필요 ADMIN = 판매자
+                        .requestMatchers(HttpMethod.POST ,"/products/register").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH ,"/products/update").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE ,"/products/delete").hasRole("ADMIN")
+
+                        // 비회원도 이용가능한 쇼핑몰 메인 페이지
+                        .requestMatchers(HttpMethod.GET ,"/products").permitAll()
+                        .requestMatchers(HttpMethod.GET ,"/products/{productId}").permitAll()
+
+                        .anyRequest().authenticated()
+                )
+
+                .addFilterBefore(new JwtFilter(tokenProvider, jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
@@ -171,6 +180,8 @@ public class SecurityConfig {
      *
      * 한층더 보안이 강화된 방식을 활용하려면 PasswordEncoder 를 커스텀하여
      * DelegatingPasswordEncoder 를 구현하여 사용한다.
+     *
+     * TODO (241105) : 비밀번호 이외에 정보를 암호화 처리할때 Security 에서 DelegatingPasswordEncoder 를 활용하여 암호화하면 양방향 암호화이기 때문에 동일하게 처리해도 되지 않을까?
      *
      * 공식문서 참조
      * https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html#authentication-password-storage-dpe
