@@ -1,15 +1,14 @@
 package com.earlybird.productservice.Product.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.earlybird.productservice.Product.entity.Product;
+import lombok.*;
 
 import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ProductResponseDto {
     private Long productId;
     private String name;

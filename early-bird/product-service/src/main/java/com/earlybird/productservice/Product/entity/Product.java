@@ -1,5 +1,6 @@
 package com.earlybird.productservice.Product.entity;
 
+import com.earlybird.productservice.Product.dto.ProductResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,5 +36,15 @@ public class Product {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    public ProductResponseDto EntityToRequestDto(Product product) {
+        return ProductResponseDto.builder()
+                .productId(this.productId)
+                .name(this.name)
+                .price(this.price)
+                .description(this.description)
+                .stockQuantity(this.stockQuantity)
+                .build();
+    }
 }
 

@@ -1,6 +1,7 @@
 package com.earlybird.productservice.Product.controller;
 
 import com.earlybird.productservice.Product.dto.ProductRequestDto;
+import com.earlybird.productservice.Product.dto.ProductResponseDto;
 import com.earlybird.productservice.Product.entity.Product;
 import com.earlybird.productservice.Product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +39,13 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity getProduct(@PathVariable("productId") Long productId) {
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("productId") Long productId) {
         log.info("제품 아이디 확인 : " + productId);
         Product findProduct = productService.getProduct(productId);
+        ProductResponseDto response = findProduct.EntityToRequestDto(findProduct);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(findProduct);
+                .body(response);
     }
 }
