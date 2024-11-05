@@ -1,0 +1,40 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+spring:
+  application:
+    name: api-gateway-mvc
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      mvc:  # Spring Cloud Gateway MVC 를 활성화
+        routes:
+          - id: user-service
+            uri: lb://user-service
+            predicates:
+              - Path=/user-service/**
+            filters:
+              - StripPrefix=1 # URL 경로에서 /user-service 부분 제거
+              - name: JwtFilter
+          - id: product-service
+            uri: lb://product-service
+            predicates:
+              - Path=/product-service/**
+            filters:
+              - StripPrefix=1
+              - name: JwtFilter
+          - id: order-service
+            uri: lb://order-service
+            predicates:
+              - Path=/order-service/**
+            filters:
+              - StripPrefix=1
+              - name: JwtFilter
