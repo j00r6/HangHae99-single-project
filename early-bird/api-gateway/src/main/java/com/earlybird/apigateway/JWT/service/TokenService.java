@@ -1,6 +1,6 @@
-package com.earlybird.userservice.Auth.service;
+package com.earlybird.apigateway.JWT.service;
 
-import com.earlybird.userservice.Redis.RedisJwtUtil;
+import com.earlybird.apigateway.Redis.RedisJwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

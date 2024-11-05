@@ -1,8 +1,8 @@
 package com.earlybird.apigateway.Security.config;
 
+import com.earlybird.apigateway.JWT.filter.JwtFilter;
+import com.earlybird.apigateway.JWT.provider.TokenProvider;
 import com.earlybird.apigateway.Redis.RedisJwtUtil;
-import com.earlybird.userservice.Auth.filter.JwtFilter;
-import com.earlybird.userservice.Auth.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

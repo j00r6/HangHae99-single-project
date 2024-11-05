@@ -1,10 +1,7 @@
 package com.earlybird.productservice.Wishlist.service;
 
-import com.earlybird.productservice.Global.exception.BadRequestException;
 import com.earlybird.productservice.Product.entity.Product;
 import com.earlybird.productservice.Product.service.ProductService;
-import com.earlybird.userservice.User.entity.User;
-import com.earlybird.userservice.User.service.UserService;
 import com.earlybird.productservice.Wishlist.entity.Wishlist;
 import com.earlybird.productservice.Wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;

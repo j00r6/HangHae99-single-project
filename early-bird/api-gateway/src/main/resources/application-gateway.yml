@@ -19,20 +19,20 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/user-service/**
-#          filters:
-#            - StripPrefix=1
-#            - name: JwtFilter
+          filters:
+            - StripPrefix=1
+            - name: JwtFilter
         - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/product-service/**
-#          filters:
-#            - StripPrefix=1
-#            - name: JwtFilter
+          filters:
+            - StripPrefix=1
+            - name: JwtFilter
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/order-service/**
-#          filters:
-#            - StripPrefix=1
-#            - name: JwtFilter
+          filters:
+            - StripPrefix=1
+            - name: JwtFilter
