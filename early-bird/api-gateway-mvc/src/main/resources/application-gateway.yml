@@ -22,7 +22,7 @@ spring:
             predicates:
               - Path=/user-service/**
             filters:
-              - StripPrefix=1 # URL 경로에서 /user-service 부분 제거
+              - StripPrefix=1
               - name: JwtFilter
           - id: product-service
             uri: lb://product-service

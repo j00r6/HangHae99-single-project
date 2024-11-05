@@ -1,4 +1,4 @@
-package com.earlybird.apigateway.Security.resolver;
+package com.earlybird.userservice.Security.resolver;
 
 import com.earlybird.userservice.User.entity.User;
 import com.earlybird.userservice.User.service.UserService;

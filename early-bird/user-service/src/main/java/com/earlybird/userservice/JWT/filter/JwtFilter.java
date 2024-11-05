@@ -1,7 +1,7 @@
-package com.earlybird.apigateway.JWT.filter;
+package com.earlybird.userservice.JWT.filter;
 
-import com.earlybird.apigateway.Redis.RedisJwtUtil;
-import com.earlybird.apigateway.JWT.provider.TokenProvider;
+import com.earlybird.userservice.Redis.RedisJwtUtil;
+import com.earlybird.userservice.JWT.provider.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.earlybird.apigateway.Redis;
+package com.earlybird.userservice.Redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

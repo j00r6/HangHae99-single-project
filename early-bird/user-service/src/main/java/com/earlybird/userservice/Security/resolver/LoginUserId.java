@@ -1,4 +1,4 @@
-package com.earlybird.apigateway.Security.resolver;
+package com.earlybird.userservice.Security.resolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

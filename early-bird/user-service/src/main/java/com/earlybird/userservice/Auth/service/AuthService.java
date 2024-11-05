@@ -1,11 +1,12 @@
 package com.earlybird.userservice.Auth.service;
 
 import com.earlybird.userservice.GlobalExceptionHandler.exception.UserNotFoundException;
+import com.earlybird.userservice.JWT.service.TokenService;
 import com.earlybird.userservice.Redis.RedisJwtUtil;
 import com.earlybird.userservice.User.entity.User;
 import com.earlybird.userservice.User.repository.UserRepository;
 import com.earlybird.userservice.Auth.dto.LogInRequest;
-import com.earlybird.userservice.Auth.provider.TokenProvider;
+import com.earlybird.userservice.JWT.provider.TokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

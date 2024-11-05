@@ -1,4 +1,4 @@
-package com.earlybird.apigateway.Security.userdetails;
+package com.earlybird.userservice.Security.userdetails;
 
 import com.earlybird.userservice.GlobalExceptionHandler.exception.BadRequestException;
 import com.earlybird.userservice.User.entity.User;

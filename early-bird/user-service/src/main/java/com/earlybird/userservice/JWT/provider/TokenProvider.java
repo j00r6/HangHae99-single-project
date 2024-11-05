@@ -1,8 +1,8 @@
-package com.earlybird.apigateway.JWT.provider;
+package com.earlybird.userservice.JWT.provider;
 
 import com.earlybird.apigateway.GlobalExceptionHandler.exception.IllegalToken;
 import com.earlybird.apigateway.GlobalExceptionHandler.exception.TokenExpiredException;
-import com.earlybird.apigateway.Security.userdetails.CustomUserDetails;
+import com.earlybird.userservice.Security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

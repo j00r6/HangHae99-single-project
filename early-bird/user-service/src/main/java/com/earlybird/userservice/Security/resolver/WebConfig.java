@@ -1,4 +1,4 @@
-package com.earlybird.apigateway.Security.resolver;
+package com.earlybird.userservice.Security.resolver;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
