@@ -1,7 +1,6 @@
 package com.earlybird.orderservice.Order.service;
 
 import com.earlybird.orderservice.Global.exception.BadRequestException;
-import com.earlybird.orderservice.Global.exception.UserNotFoundException;
 import com.earlybird.orderservice.Order.dto.OrderRequest;
 import com.earlybird.orderservice.Order.dto.OrderResponse;
 import com.earlybird.orderservice.Order.entity.Order;
@@ -10,9 +9,8 @@ import com.earlybird.orderservice.Order.repository.OrderRepository;
 import com.earlybird.orderservice.OrderItem.dto.OrderItemRequest;
 import com.earlybird.orderservice.OrderItem.entity.OrderItem;
 import com.earlybird.orderservice.OrderItem.service.OrderItemService;
-import com.earlybird.productservice.Product.entity.Product;
+import com.earlybird.productservice.Product.dto.ProductResponseDto;
 import com.earlybird.productservice.Product.service.ProductService;
-import com.earlybird.userservice.User.entity.User;
 import com.earlybird.userservice.User.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -36,6 +36,7 @@ public class OrderService {
     private final ProductService productService;
     private final UserService userService;
     private final OrderItemService orderItemService;
+    private final RestClient restClient;
 
     public void createOrder(Long userId, OrderRequest request) {
         log.info("주문 정보 : " + request.toString());
@@ -122,7 +123,7 @@ public class OrderService {
         int cancelledStock = extractQuantity(findOrder);
 
         // 주문 정보에 포함되있는 제품 정보로 상세조회
-        Long productId = orderItemService.getProductId(orderId);
+        Long orderItemServiceProductId = orderItemService.getProductId(orderId);
 //        Product findProduct = productService.findVerifyProduct(productId);
 
         // 주문이 배송 단계로 넘어가기 전일 경우
@@ -147,8 +148,9 @@ public class OrderService {
             throw new BadRequestException("반품 기간이 지나 반품이 불가합니다.");
         }
 
-        Long productId = orderItemService.getProductId(orderId);
-//        Product findProduct = productService.findVerifyProduct(productId);
+        Long orderItemServiceProductId = orderItemService.getProductId(orderId);
+        // Product-service 에서 통신을 통해 Product 객체 반환
+        fetchProductByOrderItemProductId(orderItemServiceProductId);
 
         int cancelledStock = extractQuantity(findOrder);
 //        productService.increaseStock(productId, cancelledStock);
@@ -166,6 +168,20 @@ public class OrderService {
         return order.getOrderItems().stream()
                 .mapToInt(OrderItem::getQuantity)
                 .sum();
+    }
+
+    private ProductResponseDto fetchProductByOrderItemProductId(Long productId) {
+        ResponseEntity<ProductResponseDto> response = restClient.get()
+                .uri("http://product-service/products/{productId}", productId)
+                .retrieve()
+                .toEntity(ProductResponseDto.class);
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            return response.getBody();
+        } else {
+            // TODO : 예외처리
+            return null;
+        }
     }
 }
 

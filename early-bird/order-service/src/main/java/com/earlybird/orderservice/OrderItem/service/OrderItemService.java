@@ -3,7 +3,6 @@ package com.earlybird.orderservice.OrderItem.service;
 import com.earlybird.orderservice.Order.entity.Order;
 import com.earlybird.orderservice.OrderItem.entity.OrderItem;
 import com.earlybird.orderservice.OrderItem.repository.OrderItemRepository;
-import com.earlybird.productservice.Product.entity.Product;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
