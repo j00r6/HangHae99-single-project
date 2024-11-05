@@ -16,7 +16,8 @@ public class WishlistController {
     private final WishlistService wishlistService;
 
     @GetMapping("/{productId}")
-    public ResponseEntity<String> Favorite(@LoginUserId Long userId, @PathVariable Long productId) {
+    public ResponseEntity<String> Favorite(@RequestAttribute("userId") Long userId,
+                                           @PathVariable Long productId) {
         wishlistService.addFavorite(userId, productId);
         Wishlist findFavorite = wishlistService.getFavorite(productId);
 
@@ -26,7 +27,8 @@ public class WishlistController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<String> removeFavorite(@LoginUserId Long userId, @PathVariable Long productId) {
+    public ResponseEntity<String> removeFavorite(@RequestAttribute("userId") Long userId,
+                                                 @PathVariable Long productId) {
         wishlistService.removeFavorite(userId, productId);
 
         return ResponseEntity
