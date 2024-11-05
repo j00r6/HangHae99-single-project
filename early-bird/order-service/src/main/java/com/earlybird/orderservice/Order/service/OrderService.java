@@ -149,7 +149,7 @@ public class OrderService {
         }
 
         Long orderItemServiceProductId = orderItemService.getProductId(orderId);
-        // Product-service 에서 통신을 통해 Product 객체 반환
+        // 주문 정보에서 가져온 orderItemServiceProductId로 Product-service 에서 통신을 통해 Product 객체 반환
         fetchProductByOrderItemProductId(orderItemServiceProductId);
 
         int cancelledStock = extractQuantity(findOrder);
