@@ -28,9 +28,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Long> getUser(@LoginUserId Long userId) {
+    public ResponseEntity<String> getUser(@LoginUserId Long userId) {
         User findUser = userService.findVerifyUser(userId);
-        Long returnUserId = findUser.getUserId();
+        String returnUserId = String.valueOf(findUser.getUserId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
