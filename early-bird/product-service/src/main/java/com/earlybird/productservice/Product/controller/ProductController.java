@@ -3,6 +3,7 @@ package com.earlybird.productservice.Product.controller;
 import com.earlybird.productservice.Product.dto.ProductRequestDto;
 import com.earlybird.productservice.Product.dto.ProductResponseDto;
 import com.earlybird.productservice.Product.entity.Product;
+import com.earlybird.productservice.Product.mapper.ProductMapper;
 import com.earlybird.productservice.Product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.List;
 @Slf4j
 public class ProductController {
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
     /**
      * 제품 등록의 경우 일반 회원은 진행하지 못하고
@@ -55,11 +57,10 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ResponseEntity<ProductResponseDto.toOrder> getProduct(@PathVariable("productId") Long productId) {
         log.info("제품 아이디 확인 : " + productId);
-        Product findProduct = productService.getProduct(productId);
-        ProductResponseDto.toOrder response = findProduct.EntityToRequestDto(findProduct);
+        ProductResponseDto.toOrder findProduct = productService.getProduct(productId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(response);
+                .body(findProduct);
     }
 }

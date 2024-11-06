@@ -36,15 +36,5 @@ public class Product {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt = LocalDateTime.now();
-
-    public ProductResponseDto.toOrder EntityToRequestDto(Product product) {
-        return ProductResponseDto.toOrder.builder()
-                .productId(this.productId)
-                .name(this.name)
-                .price(this.price)
-                .description(this.description)
-                .stockQuantity(this.stockQuantity)
-                .build();
-    }
 }
 
