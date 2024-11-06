@@ -2,6 +2,7 @@ package com.earlybird.productservice.Wishlist.service;
 
 import com.earlybird.productservice.Product.entity.Product;
 import com.earlybird.productservice.Product.service.ProductService;
+import com.earlybird.productservice.Global.exception.BadRequestException;
 import com.earlybird.productservice.Wishlist.entity.Wishlist;
 import com.earlybird.productservice.Wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,11 @@ import java.util.Optional;
 public class WishlistService {
     private final WishlistRepository wishlistRepository;
     private final ProductService productService;
-    private final UserService userService;
+//    private final UserService userService;
 
     public void addFavorite(Long userId, Long productId) {
         Product product = productService.getProduct(productId);
-        userService.findVerifyUser(userId);
+//        userService.findVerifyUser(userId);
 
         Wishlist wishlist = new Wishlist();
         wishlist.setProduct(product);
