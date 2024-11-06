@@ -30,7 +30,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/register")
-    public ResponseEntity<String> registerProduct(@RequestAttribute("roles") String roles,
+    public ResponseEntity<String> registerProduct(@RequestHeader("roles") String roles,
                                                   @RequestBody ProductRequestDto request) {
         productService.registerProduct(request);
         return ResponseEntity

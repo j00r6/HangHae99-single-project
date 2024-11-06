@@ -18,7 +18,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/order")
-    public ResponseEntity<String> orderProcess (@RequestAttribute("userId") Long userId,
+    public ResponseEntity<String> orderProcess (@RequestHeader("X-User-Id") Long userId,
                                                 @RequestBody OrderRequest.OrderItemResponse request) {
         orderService.createOrder(userId, request);
 
@@ -28,7 +28,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderResponse.toOrder>> getOrders (@RequestAttribute("userId") Long userId,
+    public ResponseEntity<List<OrderResponse.toOrder>> getOrders (@RequestHeader("X-User-Id") Long userId,
                                                           @RequestParam(required = false, defaultValue = "0") Long cursor,
                                                           @RequestParam(required = false, defaultValue = "10") int pageSize) {
         List<OrderResponse.toOrder> findOrderList = orderService.getOrdersAfterCursor(userId, cursor, pageSize);
@@ -39,7 +39,7 @@ public class OrderController {
     }
 
     @PutMapping("/cancel/{orderId}")
-    public ResponseEntity<String> cancelOrder (@RequestAttribute("userId") Long userId,
+    public ResponseEntity<String> cancelOrder (@RequestHeader("X-User-Id") Long userId,
                                                @PathVariable Long orderId) {
         orderService.cancelOrder(userId, orderId);
 
@@ -49,7 +49,7 @@ public class OrderController {
     }
 
     @PutMapping("/refund/{orderId}")
-    public ResponseEntity<String> refundOrder (@RequestAttribute("userId") Long userId,
+    public ResponseEntity<String> refundOrder (@RequestHeader("X-User-Id") Long userId,
                                                @PathVariable Long orderId) {
         orderService.refundOrder(userId, orderId);
 

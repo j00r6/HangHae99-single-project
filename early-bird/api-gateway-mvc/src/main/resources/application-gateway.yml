@@ -15,26 +15,23 @@ spring:
     discovery:
       enabled: true
     gateway:
-      mvc:  # Spring Cloud Gateway MVC 를 활성화
-        routes:
-          - id: user-service
-            uri: lb://user-service
-            predicates:
-              - Path=/user-service/**
-            filters:
-              - StripPrefix=1
-              - name: JwtFilter
-          - id: product-service
-            uri: lb://product-service
-            predicates:
-              - Path=/product-service/**
-            filters:
-              - StripPrefix=1
-              - name: JwtFilter
-          - id: order-service
-            uri: lb://order-service
-            predicates:
-              - Path=/order-service/**
-            filters:
-              - StripPrefix=1
-              - name: JwtFilter
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - name: JwtAuthFilter
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/product-service/**
+          filters:
+            - name: JwtAuthFilter
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - name: JwtAuthFilter
+
