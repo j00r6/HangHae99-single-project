@@ -19,7 +19,7 @@ public class OrderController {
 
     @PostMapping("/order")
     public ResponseEntity<String> orderProcess (@RequestAttribute("userId") Long userId,
-                                                @RequestBody OrderRequest request) {
+                                                @RequestBody OrderRequest.OrderItemResponse request) {
         orderService.createOrder(userId, request);
 
         return ResponseEntity

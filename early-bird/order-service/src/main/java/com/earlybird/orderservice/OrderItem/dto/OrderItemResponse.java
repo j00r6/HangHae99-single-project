@@ -16,19 +16,4 @@ public class OrderItemResponse {
     private Long productId;
     private int quantity;
     private BigDecimal price;
-
-    // Getter, Setter
-
-    // 변환 메서드 추가
-    public static List<OrderItemResponse> OrderItemToItemResponse (List<OrderItem> orderItems) {
-        return orderItems.stream()
-                .map(item -> {
-                    OrderItemResponse response = new OrderItemResponse();
-                    response.setProductId(item.getProductId());
-                    response.setQuantity(item.getQuantity());
-                    response.setPrice(item.getPrice());
-                    return response;
-                })
-                .collect(Collectors.toList());
-    }
 }

@@ -5,13 +5,11 @@ import com.earlybird.orderservice.Order.dto.OrderRequest;
 import com.earlybird.orderservice.Order.dto.OrderResponse;
 import com.earlybird.orderservice.Order.entity.Order;
 import com.earlybird.orderservice.Order.entity.OrderStatus;
+import com.earlybird.orderservice.Order.mapper.OrderMapper;
 import com.earlybird.orderservice.Order.repository.OrderRepository;
 import com.earlybird.orderservice.OrderItem.dto.OrderItemRequest;
 import com.earlybird.orderservice.OrderItem.entity.OrderItem;
 import com.earlybird.orderservice.OrderItem.service.OrderItemService;
-import com.earlybird.productservice.Product.dto.ProductResponseDto;
-import com.earlybird.productservice.Product.service.ProductService;
-import com.earlybird.userservice.User.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +31,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final ProductService productService;
-    private final UserService userService;
     private final OrderItemService orderItemService;
     private final RestClient restClient;
 
-    public void createOrder(Long userId, OrderRequest request) {
+    public void createOrder(Long userId, OrderRequest.OrderItemResponse request) {
         log.info("주문 정보 : " + request.toString());
 
 //        User findUser = userService.findVerifyUser(userId);
@@ -76,7 +72,7 @@ public class OrderService {
     }
 
     // 전체 가격 계산하는 로직을 createOrder 에서 분리
-    private BigDecimal calculateTotalPrice(OrderRequest request) {
+    private BigDecimal calculateTotalPrice(OrderRequest.OrderItemResponse request) {
         return request.getCart().stream()
                 .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -92,7 +88,7 @@ public class OrderService {
         orders.forEach(this::calculateOrderStatus);
 
         return orders.stream()
-                .map(OrderResponse::OrderEntityToOrderResponse)
+                .map(OrderMapper::EntityToResponse)
                 .collect(Collectors.toList());
     }
 
@@ -170,13 +166,14 @@ public class OrderService {
                 .sum();
     }
 
-    private ProductResponseDto.toOrder fetchProductByOrderItemProductId(Long productId) {
-        ResponseEntity<ProductResponseDto.toOrder> response = restClient.get()
-                .uri("http://product-service/products/{productId}", productId)
+    private OrderRequest.fromProduct fetchProductByOrderItemProductId(Long orderItemProductId) {
+        ResponseEntity<OrderRequest.fromProduct> response = restClient.get()
+                .uri("http://product-service/products/{productId}", orderItemProductId)
                 .retrieve()
-                .toEntity(ProductResponseDto.toOrder.class);
+                .toEntity(OrderRequest.fromProduct.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            Long productId = response.getBody().getProductId();
             return response.getBody();
         } else {
             // TODO : 예외처리
