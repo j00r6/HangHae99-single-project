@@ -7,15 +7,18 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class OrderResponse {
 
-    private Long orderId;
-    private Long userId;
-    private OrderStatus status;
-    private List<OrderItemResponse> orders;
+    @Getter
+    @Setter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class toOrder {
+        private Long orderId;
+        private Long userId;
+        private OrderStatus status;
+        private List<OrderItemResponse> orders;
+    }
 }

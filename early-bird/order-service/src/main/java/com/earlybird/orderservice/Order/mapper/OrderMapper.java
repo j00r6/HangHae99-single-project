@@ -1,17 +1,20 @@
 package com.earlybird.orderservice.Order.mapper;
 
+import com.earlybird.orderservice.Order.dto.OrderRequest;
 import com.earlybird.orderservice.Order.dto.OrderResponse;
 import com.earlybird.orderservice.Order.entity.Order;
 import com.earlybird.orderservice.OrderItem.dto.OrderItemResponse;
 import com.earlybird.orderservice.OrderItem.entity.OrderItem;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class OrderMapper {
 
-    public static OrderResponse EntityToResponse(Order order) {
-        OrderResponse response = new OrderResponse();
+    public static OrderResponse.toOrder EntityToResponse(Order order) {
+        OrderResponse.toOrder response = new OrderResponse.toOrder();
         response.setOrderId(order.getOrderId());
         response.setUserId(order.getUserId());
         response.setStatus(order.getStatus());

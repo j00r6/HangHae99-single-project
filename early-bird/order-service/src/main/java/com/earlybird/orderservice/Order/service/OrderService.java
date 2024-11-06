@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemService orderItemService;
+    private final OrderMapper orderMapper;
     private final RestClient restClient;
 
     public void createOrder(Long userId, OrderRequest.OrderItemResponse request) {
@@ -79,7 +80,7 @@ public class OrderService {
     }
 
     // 주문 리스트 가져오기
-    public List<OrderResponse> getOrdersAfterCursor(Long userId, Long cursor, int pageSize) {
+    public List<OrderResponse.toOrder> getOrdersAfterCursor(Long userId, Long cursor, int pageSize) {
         Order findOrder = findOrderByUserId(userId);
 
         Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Order.desc("createdAt")));
@@ -143,9 +144,10 @@ public class OrderService {
         if (today.isAfter(completedDate.plusDays(1))) {
             throw new BadRequestException("반품 기간이 지나 반품이 불가합니다.");
         }
-
+        // 재고관리를 위해서 주문 정보(orderItem)에서 가져온 productId
         Long orderItemServiceProductId = orderItemService.getProductId(orderId);
-        // 주문 정보에서 가져온 orderItemServiceProductId로 Product-service 에서 통신을 통해 Product 객체 반환
+        // 검증을 위해 product-service 에서 orderItemServiceProductId 를 이용해 제품 정보 조회 후 productId 반환
+        // 제품 정보가 없을시 product-service 에서 예외처리
         fetchProductByOrderItemProductId(orderItemServiceProductId);
 
         int cancelledStock = extractQuantity(findOrder);
@@ -166,15 +168,18 @@ public class OrderService {
                 .sum();
     }
 
-    private OrderRequest.fromProduct fetchProductByOrderItemProductId(Long orderItemProductId) {
+
+    private Long fetchProductByOrderItemProductId(Long orderItemProductId) {
         ResponseEntity<OrderRequest.fromProduct> response = restClient.get()
+                //product-service 에서 컨트롤러로 구현된 제품 정보 조회를 호출
                 .uri("http://product-service/products/{productId}", orderItemProductId)
                 .retrieve()
+                // uri 에서 호출한 값을 해당 서비스에 맞는 엔티티 객체로 전환
                 .toEntity(OrderRequest.fromProduct.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            Long productId = response.getBody().getProductId();
-            return response.getBody();
+            Long productIdFromProduct = response.getBody().getProductId();
+            return productIdFromProduct;
         } else {
             // TODO : 예외처리
             return null;

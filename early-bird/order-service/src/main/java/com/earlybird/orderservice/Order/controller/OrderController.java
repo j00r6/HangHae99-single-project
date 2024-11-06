@@ -28,10 +28,10 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderResponse>> getOrders (@RequestAttribute("userId") Long userId,
+    public ResponseEntity<List<OrderResponse.toOrder>> getOrders (@RequestAttribute("userId") Long userId,
                                                           @RequestParam(required = false, defaultValue = "0") Long cursor,
                                                           @RequestParam(required = false, defaultValue = "10") int pageSize) {
-        List<OrderResponse> findOrderList = orderService.getOrdersAfterCursor(userId, cursor, pageSize);
+        List<OrderResponse.toOrder> findOrderList = orderService.getOrdersAfterCursor(userId, cursor, pageSize);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

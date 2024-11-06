@@ -3,6 +3,7 @@ package com.earlybird.productservice.Product.service;
 import com.earlybird.productservice.Global.exception.BadRequestException;
 import com.earlybird.productservice.Product.dto.ProductRequestDto;
 import com.earlybird.productservice.Product.entity.Product;
+import com.earlybird.productservice.Product.mapper.ProductMapper;
 import com.earlybird.productservice.Product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     public List<Product> getProductsAfterCursor(Long cursor, int pageSize) {
         Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Order.asc("id")));
@@ -34,7 +36,7 @@ public class ProductService {
     }
 
     public void registerProduct(ProductRequestDto request) {
-        Product product = request.RequestDtoToEntity(request);
+        Product product = productMapper.RequestToEntity(request);
         productRepository.save(product);
     }
 

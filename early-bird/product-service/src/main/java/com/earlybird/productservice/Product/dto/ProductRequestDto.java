@@ -16,12 +16,5 @@ public class ProductRequestDto {
     private String description;
     private int stockQuantity;
 
-    public Product RequestDtoToEntity(ProductRequestDto request) {
-        return Product.builder()
-                .name(this.name)
-                .price(this.price)
-                .description(this.description)
-                .stockQuantity(this.stockQuantity)
-                .build();
-    }
+
 }

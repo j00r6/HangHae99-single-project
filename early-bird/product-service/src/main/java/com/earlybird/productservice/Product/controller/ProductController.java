@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     /**
-     * 제품 조회의 경우 비회원도 진행 가능
+     * 제품 상세보기(단일 조회)의 경우 비회원도 진행 가능
      *
      * @param productId
      * @return
