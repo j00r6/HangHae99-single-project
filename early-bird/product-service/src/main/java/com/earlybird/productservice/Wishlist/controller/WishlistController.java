@@ -1,6 +1,5 @@
 package com.earlybird.productservice.Wishlist.controller;
 
-import com.earlybird.userservice.Security.resolver.LoginUserId;
 import com.earlybird.productservice.Wishlist.entity.Wishlist;
 import com.earlybird.productservice.Wishlist.service.WishlistService;
 import lombok.RequiredArgsConstructor;

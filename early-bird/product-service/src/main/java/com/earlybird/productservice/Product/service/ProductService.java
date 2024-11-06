@@ -2,6 +2,7 @@ package com.earlybird.productservice.Product.service;
 
 import com.earlybird.productservice.Global.exception.BadRequestException;
 import com.earlybird.productservice.Product.dto.ProductRequestDto;
+import com.earlybird.productservice.Product.dto.ProductResponseDto;
 import com.earlybird.productservice.Product.entity.Product;
 import com.earlybird.productservice.Product.mapper.ProductMapper;
 import com.earlybird.productservice.Product.repository.ProductRepository;
@@ -25,8 +26,8 @@ public class ProductService {
         return productRepository.findProductsAfterCursor(cursor, pageable);
     }
 
-    public Product getProduct(Long productId) {
-        return findVerifyProduct(productId);
+    public ProductResponseDto.toOrder getProduct(Long productId) {
+        return productMapper.EntityToRequestDto(findVerifyProduct(productId));
     }
 
     public Product findVerifyProduct(Long productId) {

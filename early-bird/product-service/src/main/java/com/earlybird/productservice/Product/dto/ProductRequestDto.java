@@ -1,6 +1,5 @@
 package com.earlybird.productservice.Product.dto;
 
-import com.earlybird.productservice.Product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +14,4 @@ public class ProductRequestDto {
     private BigDecimal price;
     private String description;
     private int stockQuantity;
-
-
 }

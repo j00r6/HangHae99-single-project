@@ -19,5 +19,4 @@ public class ProductResponseDto {
         private String description;
         private int stockQuantity;
     }
-
 }
