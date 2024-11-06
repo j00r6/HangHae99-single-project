@@ -1,8 +1,8 @@
-package com.earlybird.apigateway.GlobalExceptionHandler.handler;
+package com.earlybird.userservice.Global.handler;
 
-import com.earlybird.apigateway.GlobalExceptionHandler.exception.IllegalToken;
-import com.earlybird.apigateway.GlobalExceptionHandler.exception.InvalidCredentialsException;
-import com.earlybird.apigateway.GlobalExceptionHandler.exception.TokenExpiredException;
+import com.earlybird.userservice.Global.exception.IllegalToken;
+import com.earlybird.userservice.Global.exception.InvalidCredentialsException;
+import com.earlybird.userservice.Global.exception.TokenExpiredException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

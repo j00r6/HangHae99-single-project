@@ -1,7 +1,7 @@
 package com.earlybird.userservice.JWT.provider;
 
-import com.earlybird.apigateway.GlobalExceptionHandler.exception.IllegalToken;
-import com.earlybird.apigateway.GlobalExceptionHandler.exception.TokenExpiredException;
+import com.earlybird.userservice.Global.exception.IllegalToken;
+import com.earlybird.userservice.Global.exception.TokenExpiredException;
 import com.earlybird.userservice.Security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -116,7 +116,7 @@ public class TokenProvider implements InitializingBean {
         return false;
     }
 
-    private Claims parseClaims (String accessToken) {
+    public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)

@@ -1,6 +1,6 @@
 package com.earlybird.userservice.Auth.service;
 
-import com.earlybird.userservice.GlobalExceptionHandler.exception.UserNotFoundException;
+import com.earlybird.userservice.Global.exception.UserNotFoundException;
 import com.earlybird.userservice.JWT.service.TokenService;
 import com.earlybird.userservice.Redis.RedisJwtUtil;
 import com.earlybird.userservice.User.entity.User;

@@ -1,6 +1,6 @@
 package com.earlybird.userservice.Security.userdetails;
 
-import com.earlybird.userservice.GlobalExceptionHandler.exception.BadRequestException;
+import com.earlybird.userservice.Global.exception.BadRequestException;
 import com.earlybird.userservice.User.entity.User;
 import com.earlybird.userservice.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

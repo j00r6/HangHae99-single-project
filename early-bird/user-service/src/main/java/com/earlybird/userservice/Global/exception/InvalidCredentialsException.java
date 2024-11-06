@@ -1,4 +1,4 @@
-package com.earlybird.apigateway.GlobalExceptionHandler.exception;
+package com.earlybird.userservice.Global.exception;
 
 import lombok.Getter;
 
