@@ -16,7 +16,7 @@ public class JwtAuthFilter implements GlobalFilter {
     private final WebClient webClient = WebClient.create();
 
     @Value("${auth.service.uri}")
-    private String authServiceUri = ; // 인증/인가 서비스 URI
+    private String authServiceUri = "http://user-service/user"; // 인증/인가 서비스 URI
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -24,9 +24,9 @@ public class JwtAuthFilter implements GlobalFilter {
 
         // 특정 경로에 대해서만 JWT 검증 적용
         if (requestPath.contains("/favorite") && requestPath.contains("/orders") && requestPath.contains("/user/logout")) {
-            String jwtToken = exchange.getRequest().getHeaders().getFirst("Authorization");
+            String requestJwt = exchange.getRequest().getHeaders().getFirst("Authorization");
 
-            if (jwtToken == null || jwtToken.isEmpty()) {
+            if (requestJwt == null || requestJwt.isEmpty()) {
                 // JWT가 없는 경우 요청 차단
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
@@ -35,7 +35,7 @@ public class JwtAuthFilter implements GlobalFilter {
             // JWT가 있는 경우 인증/인가 서비스로 사용자 ID 확인 요청
             return webClient.get()
                     .uri(authServiceUri)
-                    .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                    .header(HttpHeaders.AUTHORIZATION, requestJwt)
                     .retrieve()
                     .bodyToMono(String.class) // 사용자 ID가 문자열로 반환된다고 가정
                     .flatMap(userId -> {
@@ -44,14 +44,8 @@ public class JwtAuthFilter implements GlobalFilter {
                                 .request(r -> r.header("X-User-Id", userId)) // 최종 서비스에 사용자 ID 전달
                                 .build();
                         return chain.filter(modifiedExchange);
-                    })
-                    .onErrorResume(e -> {
-                        // 인증 실패 시 에러 반환
-                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                        return exchange.getResponse().setComplete();
                     });
         }
-
         // JWT가 필요하지 않은 경로는 그대로 통과
         return chain.filter(exchange);
     }
