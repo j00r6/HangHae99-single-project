@@ -36,14 +36,18 @@ services:
 
   eureka-server:
     container_name: spring-boot-eureka-server
+    ports:
+      - "8761:8761"
     build:
       context: ..
       dockerfile: eureka-server/docker/dockerfile-eureka
     networks:
       - app-network
 
-  app-api-gateway:
+  api-gateway:
     container_name: spring-boot-api-gateway
+    ports:
+      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -53,8 +57,10 @@ services:
     networks:
       - app-network
 
-  app-user:
+  user-service:
     container_name: spring-boot-user-container
+    ports:
+      - "9000:9000"
     depends_on:
       db:
         condition: service_healthy
@@ -64,8 +70,10 @@ services:
     networks:
       - app-network
 
-  app-product:
+  product-service:
     container_name: spring-boot-product-container
+    ports:
+      - "9001:9001"
     depends_on:
       db:
         condition: service_healthy
@@ -75,8 +83,10 @@ services:
     networks:
       - app-network
 
-  app-order:
+  order-service:
     container_name: spring-boot-order-container
+    ports:
+      - "9002:9002"
     depends_on:
       db:
         condition: service_healthy
