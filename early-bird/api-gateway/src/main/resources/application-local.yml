@@ -1,0 +1,61 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      routes:
+        - id: user-service-auth
+          uri: lb://localhost:9000
+          predicates:
+            - Path=/user/logout
+            - Path=/user/getUserId
+          filters:
+            - name: JwtAuthFilter
+
+        - id: product-service-auth
+          uri: lb://localhost:9001
+          predicates:
+            - Path=/favorite/**
+          filters:
+            - name: JwtAuthFilter
+
+        - id: order-service-auth
+          uri: lb://localhost:9002
+          predicates:
+            - Path=/orders/**
+          filters:
+            - name: JwtAuthFilter
+
+        - id: user-service
+          uri: lb://localhost:9000
+          predicates:
+            - Path=/user/**
+
+        - id: product-service
+          uri: lb://localhost:9001
+          predicates:
+            - Path=/products/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway : DEBUG
+    org.springframework.http.server.reactive : DEBUG
+    org.springframework.web.reactive : DEBUG
+    org.springframework.boot.autoconfigure.web : DEBUG
+    reactor.netty : DEBUG
