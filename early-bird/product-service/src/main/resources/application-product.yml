@@ -2,13 +2,13 @@ server:
   port: 9001
 
 eureka:
+  instance:
+    app name: product-service
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 spring:
   application:

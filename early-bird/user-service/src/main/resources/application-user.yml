@@ -2,13 +2,13 @@ server:
   port: 9000
 
 eureka:
+  instance:
+    app name: user-service
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 spring:
   application:
@@ -35,12 +35,12 @@ spring:
       mail.smtp.starttls.enable: true
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
       jwtDuration: 600
       emailDuration: 600
 jwt:
-  key: sakjhfeksfhkjsaefksenbfksebfkjsabfkjsaebfkjsaebfhksbefkhsabefkbsebf
+  key: sakjhfeksfhkjsaefksenbfksebfkjsabfkjsaebfkjsaebfhksjlsajl4nlnal4joi3j5o3nm45lkn23lk5j2l3k5njlk23n532jb532jb5h32b5k325lk23j5lk23jlk23n4lk32n4jlk4njlanflasnelkfnajks3ln4kjn34lk3n2j5klj43nkbefkhsabefkbsebf
   access-token-expiration-minutes: 3600000
   refresh-token-expiration-minutes: 14400000
 logging:
