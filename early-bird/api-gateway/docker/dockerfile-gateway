@@ -1,5 +1,5 @@
 # Base image with Gradle
-FROM gradle:7.5.1-jdk17 AS build
+FROM gradle:8.10.1-jdk21 AS build
 
 # 루트 디렉토리의 settings.gradle 파일 복사
 COPY ../../settings.gradle /app/settings.gradle
@@ -12,8 +12,8 @@ WORKDIR /app/api-gateway
 RUN chmod +x gradlew
 RUN ./gradlew build -x test
 
-FROM bellsoft/liberica-openjdk-alpine:17
+FROM bellsoft/liberica-openjdk-alpine:21.0.5
 
 COPY --from=build /app/api-gateway/build/libs/*.jar /app/api-gateway.jar
-COPY --from=build /app/api-gateway/src/main/resources/application-gateway.yml /app/application-gateway.yml
-ENTRYPOINT ["java", "-jar", "/app/api-gateway.jar", "--spring.config.location=file:/app/application-gateway.yml"]
+COPY --from=build /app/api-gateway/src/main/resources/application.yml /app/application.yml
+ENTRYPOINT ["java", "-jar", "/app/api-gateway.jar", "--spring.config.location=file:/app/application.yml"]
