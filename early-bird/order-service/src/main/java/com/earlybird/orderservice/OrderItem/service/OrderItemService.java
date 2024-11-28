@@ -26,6 +26,6 @@ public class OrderItemService {
     }
 
     public Long getProductId(Long orderId){
-        return orderItemRepository.findProductIdByOrderId(orderId);
+        return orderItemRepository.findProductIdByOrder_OrderId(orderId);
     }
 }

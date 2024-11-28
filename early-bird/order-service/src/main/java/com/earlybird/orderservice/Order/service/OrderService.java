@@ -33,7 +33,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemService orderItemService;
     private final OrderMapper orderMapper;
-    private final RestClient restClient;
+    private final RestClient restClient = RestClient.create();
 
     public void createOrder(Long userId, OrderRequest.OrderItemResponse request) {
         log.info("주문 정보 : " + request.toString());
@@ -169,20 +169,18 @@ public class OrderService {
     }
 
 
-    private Long fetchProductByOrderItemProductId(Long orderItemProductId) {
+    private void fetchProductByOrderItemProductId(Long orderItemProductId) {
         ResponseEntity<OrderRequest.fromProduct> response = restClient.get()
                 //product-service 에서 컨트롤러로 구현된 제품 정보 조회를 호출
-                .uri("http://product-service/products/{productId}", orderItemProductId)
+                .uri("http://localhost:9001/products/{productId}", orderItemProductId)
                 .retrieve()
                 // uri 에서 호출한 값을 해당 서비스에 맞는 엔티티 객체로 전환
                 .toEntity(OrderRequest.fromProduct.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
             Long productIdFromProduct = response.getBody().getProductId();
-            return productIdFromProduct;
         } else {
             // TODO : 예외처리
-            return null;
         }
     }
 }

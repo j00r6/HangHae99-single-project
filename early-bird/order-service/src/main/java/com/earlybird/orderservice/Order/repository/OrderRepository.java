@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long>  {
 //    @Query("SELECT o FROM Order o WHERE o.user.userId > :cursor")
-    @Query("SELECT o FROM Order o WHERE o.user.userId = :userId AND o.orderId > :cursor ORDER BY o.createdAt DESC")
+    @Query("SELECT o FROM Order o WHERE o.userId = :userId AND o.orderId > :cursor ORDER BY o.createdAt DESC")
     List<Order> findOrdersByUserIdAndCursor(Long userId, @Param("cursor") Long cursor, Pageable pageable);
 
     Order findOrderByUserIdAndOrderId(Long userId, Long orderId);
