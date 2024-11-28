@@ -36,8 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 
-src/main/resources/application-local.yml
-dockerfile-mysql
-dockerfile-redis
-docker/dockerfile-UserService
-docker-compose.yml
+*.yml
