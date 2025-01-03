@@ -1,6 +1,6 @@
 package com.earlybird.userservice.Security.userdetails;
 
-import com.earlybird.userservice.Global.exception.BadRequestException;
+import com.earlybird.userservice.Global.exception.UserNotFoundException;
 import com.earlybird.userservice.User.entity.User;
 import com.earlybird.userservice.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = repository.findByEmail(username);
-        User findUser = optionalUser.orElseThrow(() -> new BadRequestException("존재하지 않는 회원정보 입니다!"));
+        User findUser = optionalUser.orElseThrow(() -> new UserNotFoundException("존재하지 않는 회원정보 입니다!"));
 
         log.info("로그인한 멤버의 멤버 ID " + findUser.getUserId().toString());
 
