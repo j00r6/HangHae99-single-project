@@ -1,0 +1,19 @@
+# Base image with Gradle
+FROM gradle:7.5.1-jdk17 AS build
+
+# 루트 디렉토리의 settings.gradle 파일 복사
+COPY ../../settings.gradle /app/settings.gradle
+COPY ../build.gradle /app/build.gradle
+COPY ../gradle /app/gradle/
+
+COPY ../user-service /app/user-service
+
+WORKDIR /app/user-service
+RUN chmod +x gradlew
+RUN ./gradlew build -x test
+
+FROM bellsoft/liberica-openjdk-alpine:17
+
+COPY --from=build /app/user-service/build/libs/*.jar /app/user-service.jar
+COPY --from=build /app/user-service/src/main/resources/application-user.yml /app/application-user.yml
+ENTRYPOINT ["java", "-jar", "/app/user-service.jar", "--spring.config.location=file:/app/application-user.yml"]
