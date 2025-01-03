@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -34,18 +36,28 @@ public class JwtFilter extends OncePerRequestFilter {
         String jwt = resolveToken(request);
         String requestURI = request.getRequestURI();
 
-        if (StringUtils.hasText(jwt) && tokenProvider.validateAcessToken(jwt)) {
-            Authentication authentication = tokenProvider.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        try{
 
-            // 이메일과 권한 정보 Request 에 추가, 추후 @RequestAttribute 사용을 위해
-            request.setAttribute("username", authentication.getPrincipal());
-            request.setAttribute("role", authentication.getAuthorities());
-            request.setAttribute("userId", authentication.getPrincipal());
+            if (StringUtils.hasText(jwt) && tokenProvider.validateAccessToken(jwt)) {
+                Authentication authentication = tokenProvider.getAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.info("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
-        } else if (redisJwtUtil.isTokenBlacklisted(jwt)) {
-            log.info("토큰이 유효하지 않습니다, uri: {}", requestURI);
+                // 이메일과 권한 정보 Request 에 추가, 추후 @RequestAttribute 사용을 위해
+                request.setAttribute("username", authentication.getPrincipal());
+                request.setAttribute("role", authentication.getAuthorities());
+                request.setAttribute("userId", authentication.getPrincipal());
+
+                log.info("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
+            }
+
+        } catch (Exception e) {
+            redisJwtUtil.isTokenBlacklisted(jwt);
+            log.error("토큰이 유효하지 않습니다, uri: {}", requestURI);
+            log.error("Exception : " + e);
+            log.error("Message : " + e.getMessage());
+
+//            request.setAttribute("exception", e);
+            throw new AuthenticationException(e.getMessage()) {};
         }
 
         filterChain.doFilter(request, response); // 다음 필터로 요청 전달

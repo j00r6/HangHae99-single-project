@@ -1,7 +1,5 @@
 package com.earlybird.userservice.JWT.provider;
 
-import com.earlybird.userservice.Global.exception.IllegalToken;
-import com.earlybird.userservice.Global.exception.TokenExpiredException;
 import com.earlybird.userservice.Security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -12,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -97,35 +96,33 @@ public class TokenProvider implements InitializingBean {
     }
 
     // 토큰의 유효성 검증을 수행
-    public boolean validateAcessToken(String accessToken) {
+    public boolean validateAccessToken(String accessToken) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken);
-            return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
 
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.error("TokenProvider : 토큰이 위조되었습니다");
+            throw new AuthenticationException("토큰 위조") {};
         } catch (ExpiredJwtException e) {
-            //적절한 exception code 활용 "만료된 JWT 토큰입니다."
-            throw new TokenExpiredException("AccessToken 시간 만료!");
+            log.error("TokenProvider : AccessToken 시간 만료");
+
         } catch (UnsupportedJwtException e) {
-            //적절한 exception code 활용 "지원되지 않는 JWT 토큰입니다."
-            log.info("지원되지 않는 JWT 입니다.");
+            log.error("TokenProvider : 토큰 정보가 잘못됐습니다.");
+
         } catch (IllegalArgumentException e) {
-            //적절한 exception code 활용 "JWT 토큰이 잘못되었습니다."
-            throw new IllegalToken("토큰 정보가 잘못됐습니다!");
+        //적절한 exception code 활용 "JWT 토큰이 잘못되었습니다."
+            log.error("TokenProvider : 토큰 정보가 잘못됐습니다.");
         }
-        return false;
+        return true;
     }
 
     public Claims parseClaims(String accessToken) {
-        try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(accessToken)
                     .getBody();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims();
-        }
     }
+
 
 }
