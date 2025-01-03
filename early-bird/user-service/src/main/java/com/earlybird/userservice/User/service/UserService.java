@@ -24,8 +24,9 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public void signInUser (SignInRequest request) {
-        if(checkLoginIdDuplicate(request.getEmail())) throw new BadRequestException("이미 존재하는 이메일입니다.");
+    public String signInUser (SignInRequest request) {
+        if(checkLoginIdDuplicate(request.getEmail()))
+            throw new BadRequestException("이미 존재하는 이메일입니다.");
 
         // TODO : 비밀번호 외에 정보 암호화 구현
         // SignInRequest 에 정의된 SignInRequestToEntity 활용해 객체 전환
@@ -38,23 +39,8 @@ public class UserService {
         Authority userRole = Authority.builder().name("ROLE_USER").build();
         user.setRoles(Collections.singletonList(userRole));
         userRepository.save(user);
-    }
 
-    public User findUserByPrincipal(String principal) {
-        Optional<User> optionalUser = userRepository.findByEmail(principal);
-        if (!optionalUser.isPresent()) {
-            return null;
-        }
-        return optionalUser.get();
-    }
-
-    public User findVerifyUser (Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-
-        User findUserById =
-                optionalUser.orElseThrow(() ->
-                        new UserNotFoundException("회원 정보가 존재하지 않습니다"));
-        return findUserById;
+        return "회원가입 완료";
     }
 
     public User findUserByEmail(String email) {
