@@ -15,11 +15,9 @@ import java.util.Optional;
 public class WishlistService {
     private final WishlistRepository wishlistRepository;
     private final ProductService productService;
-//    private final UserService userService;
 
     public void addFavorite(Long userId, Long productId) {
-        Product product = productService.getProduct(productId);
-//        userService.findVerifyUser(userId);
+        Product product = productService.findVerifyProduct(productId);
 
         Wishlist wishlist = new Wishlist();
         wishlist.setProduct(product);
@@ -29,7 +27,6 @@ public class WishlistService {
 
     public void removeFavorite(Long userId, Long productId) {
         getFavorite(productId);
-        User user = userService.findVerifyUser(userId);
         Wishlist wishlistId = wishlistRepository.findWishlistIdByProduct_ProductId(productId);
         wishlistRepository.delete(wishlistId);
     }
